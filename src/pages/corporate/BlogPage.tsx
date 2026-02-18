@@ -68,7 +68,7 @@ export default function BlogPage() {
                     {post.descriptionKey}
                   </p>
                   <div className="mt-auto flex items-center justify-between text-sm">
-                    <span className="text-white/40">{post.date}</span>
+
                     <span className="inline-flex items-center gap-1.5 font-medium text-accent hover:text-accent/80 transition-colors">
                       {t('resources.readmore')}
                       <ArrowRight className="w-3.5 h-3.5" />
