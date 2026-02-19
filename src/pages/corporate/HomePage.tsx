@@ -7,14 +7,9 @@ import { SEO, OrganizationSchema } from '@/components/corporate/SEO';
 import { Footer } from '@/components/corporate/Footer';
 import { ImagePlaceholder } from '@/components/corporate/ImagePlaceholder';
 import { AnimatedSection, AnimatedTitle, AnimatedCard } from '@/components/corporate/AnimatedSection';
+import { getShuffledArtworks } from '@/utils/heroArtworks';
 import impactBgImage from '@/assets/impact-background.png';
 import heroChildrenImage from '@/assets/hero-children.jpg';
-import artwork01 from '@/assets/child_drawing_01.jpg';
-import artwork02 from '@/assets/child_drawing_02.jpg';
-import artwork03 from '@/assets/child_drawing_03.jpg';
-import artwork04 from '@/assets/child_drawing_04.jpg';
-import artwork05 from '@/assets/child_drawing_05.jpg';
-import artwork06 from '@/assets/child_drawing_06.jpg';
 
 // Animated Counter Component for Impact Section
 interface AnimatedCounterProps {
@@ -564,16 +559,7 @@ export default function HomePage() {
   } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showAllHistory, setShowAllHistory] = useState(false);
-  const [heroArtworkIdx, setHeroArtworkIdx] = useState(0);
 
-  const heroArtworks = [artwork01, artwork02, artwork03, artwork04, artwork05, artwork06];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setHeroArtworkIdx(prev => (prev + 1) % heroArtworks.length);
-    }, 2800);
-    return () => clearInterval(timer);
-  }, [heroArtworks.length]);
 
   // 7 Core Values data
   const coreValues = [{
@@ -832,12 +818,21 @@ export default function HomePage() {
   };
   const historyYears = Object.keys(historyData).sort((a, b) => Number(b) - Number(a));
   const displayedYears = showAllHistory ? historyYears : historyYears.slice(0, 3);
+  // Load and shuffle hero artworks on mount
+  const [heroArtworks, setHeroArtworks] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Get 30 random artworks from the pool of 51+ images for richer loop variety
+    const shuffled = getShuffledArtworks(30);
+    setHeroArtworks(shuffled);
+  }, []);
+
   return <>
     <SEO />
     <OrganizationSchema />
 
     {/* ─────────────────────────────────────────────────────────────
-          Section 1: Hero — ClassDojo-style: centered copy + artwork strip
+          Section 1: Hero — ClassDojo-style: centered copy + artwork stream
       ───────────────────────────────────────────────────────────── */}
     <section className="scroll-snap-section relative overflow-hidden bg-[#FAF8F4] flex flex-col justify-start pt-0 pb-0 min-h-screen">
 
@@ -908,42 +903,57 @@ export default function HomePage() {
         </motion.div>
       </div>
 
-      {/* ── Student Artwork Strip (ClassDojo-style) ── */}
-      <div className="relative z-10 w-full mt-auto">
+      {/* ── Student Artwork Stream ── */}
+      <div className="relative z-10 w-full mt-auto overflow-visible pb-12">
         {/* Gallery label */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.4 }}
-          className="text-center text-xs font-semibold text-slate-400 tracking-widest uppercase mb-4"
+          className="text-center text-xs font-semibold text-slate-400 tracking-widest uppercase mb-5"
         >
           {language === 'ko' ? '아이들이 만든 작품들' : 'Created by our young artists'}
         </motion.p>
 
-        {/* Full-width image mosaic */}
-        <div className="flex gap-3 px-4 md:px-8 pb-0 items-end overflow-x-auto no-scrollbar">
-          {heroArtworks.map((src, i) => {
-            // Stagger heights: tall-short-tall-short pattern gives ClassDojo organic feel
-            const heights = ['h-44 md:h-56', 'h-36 md:h-44', 'h-52 md:h-64', 'h-40 md:h-52', 'h-48 md:h-60', 'h-36 md:h-44'];
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.55 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className={`relative flex-1 min-w-[140px] md:min-w-[180px] ${heights[i]} rounded-t-2xl overflow-hidden shadow-xl ring-1 ring-white/60`}
-              >
-                <img
-                  src={src}
-                  alt={language === 'ko' ? `학생 작품 ${i + 1}` : `Student artwork ${i + 1}`}
-                  className="w-full h-full object-cover"
-                  loading={i < 3 ? 'eager' : 'lazy'}
-                />
-                {/* Subtle top scrim for depth */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-transparent pointer-events-none" />
-              </motion.div>
-            );
-          })}
+        {/* Infinite scrolling strip with wavy curve */}
+        <div className="artwork-strip w-full overflow-visible">
+          <div className="artwork-track">
+            {[...heroArtworks, ...heroArtworks].map((src, i) => {
+              // Wave offset: sine curve gives each card a different Y position
+              const waveOffset = Math.sin((i % heroArtworks.length) * 0.72) * 28; // px, ±28px amplitude
+              // Height pattern cycles through 5 sizes
+              const heights = [160, 130, 190, 145, 175];
+              const h = heights[i % heights.length];
+
+              return (
+                <div
+                  key={`stream-${i}`}
+                  className="group artwork-card-inner relative flex-shrink-0 mx-2 hover:z-50"
+                  style={{
+                    transform: `translateY(${waveOffset}px)`,
+                    marginBottom: `${28 - waveOffset}px`,
+                    // Bouncy float animation: varies duration (3s-4.5s) and delay per item
+                    animation: `float-bob ${3 + (i % 4) * 0.5}s ease-in-out infinite`,
+                    animationDelay: `-${i * 0.7}s`
+                  }}
+                >
+                  <div
+                    className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-white/70 transition-all duration-400 group-hover:shadow-2xl group-hover:scale-[1.2] group-hover:ring-4 group-hover:ring-accent/40 group-hover:-translate-y-4"
+                    style={{ width: 160, height: h }}
+                  >
+                    <img
+                      src={src}
+                      alt={language === 'ko' ? `학생 작품` : `Student artwork`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      draggable={false}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

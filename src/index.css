@@ -279,6 +279,63 @@
       hsl(0 0% 10%) 100%);
 }
 
+/* ── Artwork stream marquee ── */
+@keyframes marquee-rtl {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Bouncy floating animation */
+@keyframes float-bob {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+}
+
+.artwork-track {
+  display: flex;
+  width: max-content;
+  /* Slower speed: 80s */
+  animation: marquee-rtl 80s linear infinite;
+  will-change: transform;
+}
+
+/* Pause when any card inside the strip is hovered */
+.artwork-strip:hover .artwork-track {
+  animation-play-state: paused;
+}
+
+/* When track is paused (hover), also pause the bobbing of children */
+.artwork-strip:hover .artwork-card-inner {
+  animation-play-state: paused;
+}
+
+/* Edge fade masks */
+.artwork-strip {
+  --fade-w: 80px;
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0,
+      black var(--fade-w),
+      black calc(100% - var(--fade-w)),
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0,
+      black var(--fade-w),
+      black calc(100% - var(--fade-w)),
+      transparent 100%);
+}
+
 /* Hero fade-in animation */
 @keyframes hero-fade-in {
   0% {
