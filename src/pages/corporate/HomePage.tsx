@@ -88,26 +88,39 @@ function ValueTile({ value, t, colorIdx, isPinnacle = false, delay = 0 }: ValueT
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
       className={`
-        relative flex flex-col items-center text-center rounded-2xl p-5 md:p-6
-        ${c.bg} ring-1 ${c.ring}
+        relative group overflow-hidden
+        flex flex-col items-center justify-center text-center rounded-xl p-3 md:p-4
+        ${c.bg} ring-1 ${c.ring} min-h-[100px] md:min-h-[120px]
         hover:shadow-lg hover:-translate-y-1 transition-all duration-300
         ${isPinnacle ? 'ring-2 shadow-md' : ''}
       `}
     >
       {isPinnacle && (
-        <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold bg-accent text-white shadow`}>
+        <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold bg-accent text-white shadow z-20`}>
           ★ PINNACLE
         </span>
       )}
-      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center mb-3 ${c.icon}`}>
-        <Icon className="w-6 h-6 md:w-7 md:h-7" />
+
+      {/* Default State: Icon + Title */}
+      <div className="flex flex-col items-center transition-all duration-300 group-hover:opacity-0 group-hover:scale-95">
+        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-2 ${c.icon}`}>
+          <Icon className="w-5 h-5 md:w-6 md:h-6" />
+        </div>
+        <h3 className={`text-xs md:text-sm font-bold text-slate-800 leading-tight px-1`}>
+          {t(value.titleKey)}
+        </h3>
       </div>
-      <h3 className={`text-sm md:text-base font-bold mb-1.5 text-slate-800 leading-snug`}>
-        {t(value.titleKey)}
-      </h3>
-      <p className="text-xs md:text-sm text-slate-500 leading-relaxed">
-        {t(value.descKey)}
-      </p>
+
+      {/* Hover State: Description */}
+      <div className={`
+        absolute inset-0 p-3 flex flex-col items-center justify-center
+        opacity-0 group-hover:opacity-100 transition-all duration-300 scale-105 group-hover:scale-100
+        bg-white/95 backdrop-blur-sm z-10 pointer-events-none group-hover:pointer-events-auto
+      `}>
+        <p className="text-[10px] md:text-xs text-slate-600 leading-snug font-medium">
+          {t(value.descKey)}
+        </p>
+      </div>
     </motion.div>
   );
 }
@@ -121,30 +134,31 @@ function ValuesGrid({ coreValues, t }: ValuesGridProps) {
   return (
     <div className="max-w-5xl mx-auto">
       {/* Row 1: 4 base values */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-3 md:mb-4">
+      {/* Row 1: 4 base values */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-1 md:mb-2">
         {[coreValues[0], coreValues[1], coreValues[2], coreValues[3]].map((val, i) => (
           <ValueTile key={i} value={val} t={t} colorIdx={i} delay={i * 0.06} />
         ))}
       </div>
 
       {/* Converging connector */}
-      <div className="hidden md:flex items-center justify-center gap-1 my-2">
+      <div className="hidden md:flex items-center justify-center gap-1 my-1">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent to-accent/25" />
-        <ChevronUp className="w-5 h-5 text-accent/50" />
+        <ChevronUp className="w-4 h-4 text-accent/50" />
         <div className="flex-1 h-px bg-gradient-to-l from-transparent to-accent/25" />
       </div>
 
       {/* Row 2: 2 mid values — centered */}
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4 md:max-w-2xl md:mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3 mb-1 md:mb-2 md:max-w-xl md:mx-auto">
         {[coreValues[4], coreValues[5]].map((val, i) => (
           <ValueTile key={i} value={val} t={t} colorIdx={i + 4} delay={0.25 + i * 0.06} />
         ))}
       </div>
 
       {/* Converging connector */}
-      <div className="hidden md:flex items-center justify-center gap-1 my-2">
+      <div className="hidden md:flex items-center justify-center gap-1 my-1">
         <div className="w-48 h-px bg-gradient-to-r from-transparent to-accent/25" />
-        <ChevronUp className="w-5 h-5 text-accent/60" />
+        <ChevronUp className="w-4 h-4 text-accent/60" />
         <div className="w-48 h-px bg-gradient-to-l from-transparent to-accent/25" />
       </div>
 
@@ -177,28 +191,28 @@ function PyramidValueCard({
 }: PyramidValueCardProps) {
   const Icon = value.icon;
 
-  // Size-based styling for vertical stack layout
+  // Size-based styling - simplified for compact initial view
   const sizeStyles = {
     sm: {
-      padding: 'p-4 pb-5',
+      padding: 'p-4',
       iconWrapper: 'w-10 h-10',
       icon: 'w-5 h-5',
       title: 'text-sm font-semibold',
-      desc: 'text-xs'
+      desc: 'text-xs mt-2'
     },
     md: {
-      padding: 'p-5 pb-6',
+      padding: 'p-5',
       iconWrapper: 'w-12 h-12',
       icon: 'w-6 h-6',
       title: 'text-base font-semibold',
-      desc: 'text-sm'
+      desc: 'text-sm mt-2'
     },
     lg: {
-      padding: 'p-6 pb-7',
+      padding: 'p-6',
       iconWrapper: 'w-14 h-14',
       icon: 'w-7 h-7',
       title: 'text-lg font-bold',
-      desc: 'text-sm'
+      desc: 'text-sm mt-3'
     }
   };
 
@@ -206,28 +220,53 @@ function PyramidValueCard({
 
   return (
     <div className={`
-      h-full flex flex-col items-center text-center
-      bg-white rounded-xl shadow-md 
-      hover:shadow-xl transition-all duration-300 hover:-translate-y-1 
+      relative group overflow-hidden
+      h-full w-full flex flex-col items-center justify-center text-center
+      bg-white rounded-xl shadow-sm hover:shadow-xl 
+      transition-all duration-300 hover:-translate-y-1 
       border border-slate-100 
       ${styles.padding}
       ${isPinnacle ? 'border-accent/30 bg-gradient-to-br from-accent/5 to-white ring-2 ring-accent/15 animate-pulse-glow' : ''}
     `}>
-      {/* Icon at top */}
-      <div className={`
-        ${styles.iconWrapper} 
-        rounded-xl flex items-center justify-center mb-3
-        ${isPinnacle ? 'bg-accent/15' : 'bg-accent/10'}
-      `}>
-        <Icon className={`${styles.icon} text-accent`} />
-      </div>
+      {/* Icon + Title Container - moves up slightly on hover */}
+      <div className="flex flex-col items-center transition-transform duration-300 group-hover:-translate-y-1">
+        {/* Icon */}
+        <div className={`
+          ${styles.iconWrapper} 
+          rounded-xl flex items-center justify-center mb-3
+          transition-colors duration-300
+          ${isPinnacle ? 'bg-accent/15 group-hover:bg-accent/20' : 'bg-accent/10 group-hover:bg-accent/15'}
+        `}>
+          <Icon className={`${styles.icon} text-accent`} />
+        </div>
 
-      {/* Text content */}
-      <div className="flex-1 flex flex-col">
-        <h3 className={`${styles.title} text-slate-800 mb-2 leading-snug`}>
+        {/* Title */}
+        <h3 className={`${styles.title} text-slate-800 leading-snug`}>
           {t(value.titleKey)}
         </h3>
-        <p className={`${styles.desc} text-slate-500 leading-relaxed`}>
+      </div>
+
+      {/* Description Reveal - Absolute overlay or height expansion? 
+          Let's try max-height expansion for smoother layout flow if feasible, 
+          OR absolute overlay to prevent grid jitter. 
+          Given 'scroll snap', grid jitter is bad. 
+          Let's use absolute positioning for the description to appear OVER the card 
+          or just toggle visibility if we want to keep size fixed.
+          
+          Actually, let's keep the card fixed size (compact) and show description by expanding 
+          internal spacing or overlaying.
+          Best UX: The card grows slightly or we just use absolute positioning for the description 
+          if the card has enough space. 
+          
+          Let's try a clean absolute overlay that fades in.
+      */}
+      <div className={`
+        absolute inset-0 bg-white/95 backdrop-blur-sm z-10
+        flex flex-col items-center justify-center px-4 text-center
+        opacity-0 group-hover:opacity-100 transition-opacity duration-300
+        pointer-events-none group-hover:pointer-events-auto
+      `}>
+        <p className={`${styles.desc} text-slate-600 leading-relaxed font-medium`}>
           {t(value.descKey)}
         </p>
       </div>
@@ -827,434 +866,438 @@ export default function HomePage() {
     setHeroArtworks(shuffled);
   }, []);
 
-  return <>
-    <SEO />
-    <OrganizationSchema />
+  return (
+    <div className="w-full overflow-hidden relative">
+      <SEO />
+      <OrganizationSchema />
 
-    {/* ─────────────────────────────────────────────────────────────
+      {/* ─────────────────────────────────────────────────────────────
           Section 1: Hero — ClassDojo-style: centered copy + artwork stream
       ───────────────────────────────────────────────────────────── */}
-    <section className="scroll-snap-section relative overflow-hidden bg-[#FAF8F4] flex flex-col justify-start pt-0 pb-0 min-h-screen">
+      <section className="scroll-snap-section relative overflow-hidden bg-[#FAF8F4] flex flex-col justify-start pt-0 pb-0 min-h-screen">
 
-      {/* ── Blob layer ── */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] bg-orange-300/75 blur-[80px] blob-animate-slow" />
-        <div className="absolute -top-20 right-0 w-[520px] h-[520px] bg-rose-300/65 blur-[75px] blob-animate-medium" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[480px] h-[480px] bg-sky-300/55 blur-[75px] blob-animate-slow-delay" />
-        <div className="absolute bottom-0 -left-20 w-[460px] h-[460px] bg-teal-300/60 blur-[75px] blob-animate-medium-delay" />
-        <div className="absolute -bottom-20 right-1/4 w-[400px] h-[400px] bg-violet-300/50 blur-[65px] blob-animate-fast" />
-        <div className="absolute top-1/3 right-10 w-[320px] h-[320px] bg-amber-300/60 blur-[65px] blob-animate-slow" />
-      </div>
+        {/* ── Blob layer ── */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-32 -left-32 w-[600px] h-[600px] bg-orange-300/75 blur-[80px] blob-animate-slow" />
+          <div className="absolute -top-20 right-0 w-[520px] h-[520px] bg-rose-300/65 blur-[75px] blob-animate-medium" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[480px] h-[480px] bg-sky-300/55 blur-[75px] blob-animate-slow-delay" />
+          <div className="absolute bottom-0 -left-20 w-[460px] h-[460px] bg-teal-300/60 blur-[75px] blob-animate-medium-delay" />
+          <div className="absolute -bottom-20 right-1/4 w-[400px] h-[400px] bg-violet-300/50 blur-[65px] blob-animate-fast" />
+          <div className="absolute top-1/3 right-10 w-[320px] h-[320px] bg-amber-300/60 blur-[65px] blob-animate-slow" />
+        </div>
 
-      {/* ── Centered copy ── */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-8 pt-32 md:pt-36 pb-10">
+        {/* ── Centered copy ── */}
+        <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-8 pt-20 md:pt-24 pb-4">
 
-        {/* Eyebrow pill */}
-        <motion.div
-          initial={{ opacity: 0, y: -14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-md text-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-6 ring-1 ring-accent/25 shadow-sm"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          {t('brand.tagline')}
-        </motion.div>
-
-        {/* H1 */}
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.08] [word-break:keep-all] mb-5 max-w-3xl"
-        >
-          {t('home.headline')}
-        </motion.h1>
-
-        {/* Sub-text */}
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg md:text-xl text-slate-600/90 leading-relaxed mb-9 [word-break:keep-all] max-w-xl"
-        >
-          {t('home.slogan')}
-        </motion.p>
-
-        {/* CTA row */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.52 }}
-          className="flex flex-col sm:flex-row gap-3"
-        >
-          <Link
-            to="/products"
-            className="inline-flex items-center justify-center gap-2 bg-accent text-white px-9 py-4 rounded-2xl text-base font-semibold hover:bg-accent/90 transition-all duration-200 shadow-lg shadow-accent/25 hover:shadow-xl hover:-translate-y-0.5"
+          {/* Eyebrow pill */}
+          <motion.div
+            initial={{ opacity: 0, y: -14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-md text-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-4 ring-1 ring-accent/25 shadow-sm"
           >
-            {t('cta.explore_products')}
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center gap-2 text-slate-700 border border-white/60 bg-white/60 backdrop-blur-sm px-9 py-4 rounded-2xl text-base font-medium hover:bg-white/80 transition-all duration-200 shadow-sm"
+            <Sparkles className="w-3.5 h-3.5" />
+            {t('brand.tagline')}
+          </motion.div>
+
+          {/* H1 */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.08] [word-break:keep-all] mb-4 max-w-3xl"
           >
-            {t('cta.contact')}
-          </Link>
-        </motion.div>
-      </div>
+            {t('home.headline')}
+          </motion.h1>
 
-      {/* ── Student Artwork Stream ── */}
-      <div className="relative z-10 w-full mt-auto overflow-visible pb-12">
-        {/* Gallery label */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.4 }}
-          className="text-center text-xs font-semibold text-slate-400 tracking-widest uppercase mb-5"
-        >
-          {language === 'ko' ? '아이들이 만든 작품들' : 'Created by our young artists'}
-        </motion.p>
+          {/* Sub-text */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg md:text-xl text-slate-600/90 leading-relaxed mb-5 [word-break:keep-all] max-w-xl"
+          >
+            {t('home.slogan')}
+          </motion.p>
 
-        {/* Infinite scrolling strip with wavy curve */}
-        <div className="artwork-strip w-full overflow-visible">
-          <div className="artwork-track">
-            {[...heroArtworks, ...heroArtworks].map((src, i) => {
-              // Wave offset: sine curve gives each card a different Y position
-              const waveOffset = Math.sin((i % heroArtworks.length) * 0.72) * 28; // px, ±28px amplitude
-              // Height pattern cycles through 5 sizes
-              const heights = [160, 130, 190, 145, 175];
-              const h = heights[i % heights.length];
+          {/* CTA row */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.52 }}
+            className="flex flex-col sm:flex-row gap-3"
+          >
+            <Link
+              to="/products"
+              className="inline-flex items-center justify-center gap-2 bg-accent text-white px-9 py-4 rounded-2xl text-base font-semibold hover:bg-accent/90 transition-all duration-200 shadow-lg shadow-accent/25 hover:shadow-xl hover:-translate-y-0.5"
+            >
+              {t('cta.explore_products')}
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 text-slate-700 border border-white/60 bg-white/60 backdrop-blur-sm px-9 py-4 rounded-2xl text-base font-medium hover:bg-white/80 transition-all duration-200 shadow-sm"
+            >
+              {t('cta.contact')}
+            </Link>
+          </motion.div>
+        </div>
 
-              return (
-                <div
-                  key={`stream-${i}`}
-                  className="group artwork-card-inner relative flex-shrink-0 mx-2 hover:z-50"
-                  style={{
-                    transform: `translateY(${waveOffset}px)`,
-                    marginBottom: `${28 - waveOffset}px`,
-                    // Bouncy float animation: varies duration (3s-4.5s) and delay per item
-                    animation: `float-bob ${3 + (i % 4) * 0.5}s ease-in-out infinite`,
-                    animationDelay: `-${i * 0.7}s`
-                  }}
-                >
+        {/* ── Student Artwork Stream ── */}
+        <div className="relative z-10 w-full min-w-0 mt-auto overflow-hidden pb-0">
+          {/* Gallery label */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.4 }}
+            className="text-center text-xs font-semibold text-slate-400 tracking-widest uppercase mb-4"
+          >
+            {language === 'ko' ? '아이들이 만든 작품들' : 'Created by our young artists'}
+          </motion.p>
+
+          {/* Infinite scrolling strip with wavy curve */}
+          <div className="artwork-strip relative w-full overflow-hidden py-6" style={{ contain: 'paint' }}>
+            <div className="artwork-track px-4">
+              {[...heroArtworks, ...heroArtworks].map((src, i) => {
+                // Wave offset: sine curve gives each card a different Y position
+                const waveOffset = Math.sin((i % heroArtworks.length) * 0.72) * 20; // px, ±20px amplitude
+                // Height pattern cycles through 5 sizes - Scaled down for laptop fit
+                const heights = [140, 115, 165, 130, 155];
+                const h = heights[i % heights.length];
+
+                return (
                   <div
-                    className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-white/70 transition-all duration-400 group-hover:shadow-2xl group-hover:scale-[1.2] group-hover:ring-4 group-hover:ring-accent/40 group-hover:-translate-y-4"
-                    style={{ width: 160, height: h }}
+                    key={`stream-${i}`}
+                    className="group artwork-card-inner relative flex-shrink-0 mx-2 hover:z-50"
+                    style={{
+                      transform: `translateY(${waveOffset}px)`,
+                      // Bouncy float animation: varies duration (3s-4.5s) and delay per item
+                      animation: `float-bob ${3 + (i % 4) * 0.5}s ease-in-out infinite`,
+                      animationDelay: `-${i * 0.7}s`
+                    }}
                   >
-                    <img
-                      src={src}
-                      alt={language === 'ko' ? `학생 작품` : `Student artwork`}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      draggable={false}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                    <div
+                      className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-white/70 transition-all duration-400 group-hover:shadow-2xl group-hover:scale-[1.2] group-hover:ring-4 group-hover:ring-accent/40 group-hover:-translate-y-4"
+                      style={{ width: 140, height: h }}
+                    >
+                      <img
+                        src={src}
+                        alt={language === 'ko' ? `학생 작품` : `Student artwork`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        draggable={false}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Section 2: 7 Core Values - Pyramid Layout */}
-    <section className="scroll-snap-section section-divider bg-background py-16 md:py-24 relative overflow-hidden">
-      {/* Gradient Blobs */}
-      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-orange-200/30 blur-3xl blob-animate-slow pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-purple-200/25 blur-3xl blob-animate-medium pointer-events-none" />
-      <AnimatedSection className="w-full container-corporate relative z-10">
-        {/* Section Title */}
-        <div className="text-center mb-10 md:mb-14 px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            {t('home.values.section.title')}
-          </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
-            {language === 'ko'
-              ? '아이들에게 전달하고자 하는 7가지 핵심 가치, 최종 목표는 숨은 재능·적성 파악입니다'
-              : '7 core values we deliver to children — the pinnacle: identifying hidden talents & aptitudes'}
-          </p>
-        </div>
+      {/* Section 2: 7 Core Values - Pyramid Layout */}
+      {/* Section 2: 7 Core Values - Pyramid Layout */}
+      <section className="scroll-snap-section section-divider bg-background py-8 md:py-12 relative overflow-hidden">
+        {/* Gradient Blobs */}
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-orange-200/30 blur-3xl blob-animate-slow pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-purple-200/25 blur-3xl blob-animate-medium pointer-events-none" />
+        <AnimatedSection className="w-full container-corporate relative z-10">
+          {/* Section Title */}
+          <div className="text-center mb-10 md:mb-14 px-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+              {t('home.values.section.title')}
+            </h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
+              {language === 'ko'
+                ? '아이들에게 전달하고자 하는 7가지 핵심 가치, 최종 목표는 숨은 재능·적성 파악입니다'
+                : '7 core values we deliver to children — the pinnacle: identifying hidden talents & aptitudes'}
+            </p>
+          </div>
 
-        {/* 7 Core Values colorful grid */}
-        <ValuesGrid coreValues={coreValues} t={t} />
-      </AnimatedSection>
-    </section>
+          {/* 7 Core Values colorful grid */}
+          <ValuesGrid coreValues={coreValues} t={t} />
+        </AnimatedSection>
+      </section>
 
-    {/* ────────────────────────────────────────────────────────────────
+      {/* ────────────────────────────────────────────────────────────────
           Sections 3a–3b: Our Solutions — 2 solutions per fullscreen section
       ──────────────────────────────────────────────────────────────── */}
-    {
-      [[0, 1], [2, 3]].map((pair, sectionIdx) => {
-        const sectionBg = sectionIdx === 0 ? 'bg-background' : 'bg-slate-50/70';
-        const accentColorsList = [
-          { pill: 'bg-orange-50 text-orange-600 ring-orange-200', icon: 'bg-orange-100 text-orange-500', num: 'text-orange-500', bar: 'bg-orange-400' },
-          { pill: 'bg-violet-50 text-violet-600 ring-violet-200', icon: 'bg-violet-100 text-violet-500', num: 'text-violet-500', bar: 'bg-violet-400' },
-          { pill: 'bg-sky-50 text-sky-600 ring-sky-200', icon: 'bg-sky-100 text-sky-500', num: 'text-sky-500', bar: 'bg-sky-400' },
-          { pill: 'bg-rose-50 text-rose-600 ring-rose-200', icon: 'bg-rose-100 text-rose-500', num: 'text-rose-500', bar: 'bg-rose-400' },
-        ];
-        const videoSlugs = ['creative', 'gallery', 'ai', 'care'];
+      {
+        [[0, 1], [2, 3]].map((pair, sectionIdx) => {
+          const sectionBg = sectionIdx === 0 ? 'bg-background' : 'bg-slate-50/70';
+          const accentColorsList = [
+            { pill: 'bg-orange-50 text-orange-600 ring-orange-200', icon: 'bg-orange-100 text-orange-500', num: 'text-orange-500', bar: 'bg-orange-400' },
+            { pill: 'bg-violet-50 text-violet-600 ring-violet-200', icon: 'bg-violet-100 text-violet-500', num: 'text-violet-500', bar: 'bg-violet-400' },
+            { pill: 'bg-sky-50 text-sky-600 ring-sky-200', icon: 'bg-sky-100 text-sky-500', num: 'text-sky-500', bar: 'bg-sky-400' },
+            { pill: 'bg-rose-50 text-rose-600 ring-rose-200', icon: 'bg-rose-100 text-rose-500', num: 'text-rose-500', bar: 'bg-rose-400' },
+          ];
+          const videoSlugs = ['creative', 'gallery', 'ai', 'care'];
 
-        return (
-          <section
-            key={sectionIdx}
-            className={`scroll-snap-section section-divider relative overflow-hidden ${sectionBg}`}
-          >
-            <div className="container-corporate w-full flex flex-col justify-center py-16 md:py-20 px-6 md:px-8 lg:px-12">
+          return (
+            <section
+              key={sectionIdx}
+              className={`scroll-snap-section section-divider relative overflow-hidden ${sectionBg}`}
+            >
+              <div className="container-corporate w-full flex flex-col justify-center py-16 md:py-20 px-6 md:px-8 lg:px-12">
 
-              {/* Section eyebrow — only on first section */}
-              {sectionIdx === 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="text-center mb-10 md:mb-12"
-                >
-                  <p className="text-xs font-semibold tracking-widest text-accent/70 uppercase mb-3">
-                    {t('home.solution.section.title')}
-                  </p>
-                  <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
-                    {language === 'ko' ? '아이스크림아트의 4가지 솔루션' : '4 Core Solutions'}
-                  </h2>
-                </motion.div>
-              )}
+                {/* Section eyebrow — only on first section */}
+                {sectionIdx === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-10 md:mb-12"
+                  >
+                    <p className="text-xs font-semibold tracking-widest text-accent/70 uppercase mb-3">
+                      {t('home.solution.section.title')}
+                    </p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
+                      {language === 'ko' ? '아이스크림아트의 4가지 솔루션' : '4 Core Solutions'}
+                    </h2>
+                  </motion.div>
+                )}
 
-              {/* Two solution cards */}
-              <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-                {pair.map((solIdx) => {
-                  const solution = solutions[solIdx];
-                  const Icon = solution.icon;
-                  const tags = language === 'ko' ? solution.tags : solution.tagsEn;
-                  const accent = accentColorsList[solIdx];
-                  const videoSrc = `/videos/solutions/solution-${solIdx + 1}-${videoSlugs[solIdx]}`;
+                {/* Two solution cards */}
+                <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+                  {pair.map((solIdx) => {
+                    const solution = solutions[solIdx];
+                    const Icon = solution.icon;
+                    const tags = language === 'ko' ? solution.tags : solution.tagsEn;
+                    const accent = accentColorsList[solIdx];
+                    const videoSrc = `/videos/solutions/solution-${solIdx + 1}-${videoSlugs[solIdx]}`;
 
-                  return (
-                    <motion.div
-                      key={solution.titleKey}
-                      initial={{ opacity: 0, y: 28 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.65, delay: (solIdx % 2) * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                      className="flex flex-col gap-5"
-                    >
-                      {/* 16:9 Video */}
-                      <div className="relative rounded-2xl overflow-hidden shadow-xl shadow-slate-200/50 ring-1 ring-slate-200 aspect-video bg-slate-100">
-                        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                          <source src={`${videoSrc}.webm`} type="video/webm" />
-                          <source src={`${videoSrc}.mp4`} type="video/mp4" />
-                        </video>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
-                        {/* Number badge on video */}
-                        <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold text-white backdrop-blur-sm bg-black/30`}>
-                          0{solIdx + 1} / 04
-                        </div>
-                      </div>
-
-                      {/* Text content */}
-                      <div className="flex flex-col gap-3 px-1">
-                        {/* Icon + Title row */}
-                        <div className="flex items-center gap-3">
-                          <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${accent.icon}`}>
-                            <Icon className="w-4 h-4" />
+                    return (
+                      <motion.div
+                        key={solution.titleKey}
+                        initial={{ opacity: 0, y: 28 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ duration: 0.65, delay: (solIdx % 2) * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col gap-5"
+                      >
+                        {/* 16:9 Video */}
+                        <div className="relative rounded-2xl overflow-hidden shadow-xl shadow-slate-200/50 ring-1 ring-slate-200 aspect-video bg-slate-100">
+                          <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                            <source src={`${videoSrc}.webm`} type="video/webm" />
+                            <source src={`${videoSrc}.mp4`} type="video/mp4" />
+                          </video>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
+                          {/* Number badge on video */}
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold text-white backdrop-blur-sm bg-black/30`}>
+                            0{solIdx + 1} / 04
                           </div>
-                          <h3 className="text-xl md:text-2xl font-bold text-slate-900 leading-snug [word-break:keep-all]">
-                            {t(solution.titleKey)}
-                          </h3>
                         </div>
 
-                        {/* Description */}
-                        <p className="text-sm md:text-base text-slate-600 leading-relaxed [word-break:keep-all]">
-                          {t(solution.descKey)}
-                        </p>
+                        {/* Text content */}
+                        <div className="flex flex-col gap-3 px-1">
+                          {/* Icon + Title row */}
+                          <div className="flex items-center gap-3">
+                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${accent.icon}`}>
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <h3 className="text-xl md:text-2xl font-bold text-slate-900 leading-snug [word-break:keep-all]">
+                              {t(solution.titleKey)}
+                            </h3>
+                          </div>
 
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-1.5">
-                          {tags.map((tag, ti) => (
-                            <span
-                              key={ti}
-                              className={`text-xs font-semibold px-3 py-1 rounded-full ring-1 ${accent.pill}`}
-                            >
-                              {tag}
-                            </span>
-                          ))}
+                          {/* Description */}
+                          <p className="text-sm md:text-base text-slate-600 leading-relaxed [word-break:keep-all]">
+                            {t(solution.descKey)}
+                          </p>
+
+                          {/* Tags */}
+                          <div className="flex flex-wrap gap-1.5">
+                            {tags.map((tag, ti) => (
+                              <span
+                                key={ti}
+                                className={`text-xs font-semibold px-3 py-1 rounded-full ring-1 ${accent.pill}`}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        );
-      })
-    }
-
-
-
-    {/* Section 4: Impact by Numbers */}
-    <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 relative overflow-hidden">
-      {/* Background Image with Dimmed Overlay */}
-      <div className="absolute inset-0">
-        <img
-          src={impactBgImage}
-          alt=""
-          className="w-full h-full object-cover"
-        />
-        {/* Dark Overlay — strong enough for text legibility */}
-        <div className="absolute inset-0 bg-black/93" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/60" />
-      </div>
-
-      <AnimatedSection className="container-corporate w-full relative z-10">
-        <div className="text-center mb-12 md:mb-16">
-          <AnimatedTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
-            {t('home.impact.section.title')}
-          </AnimatedTitle>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {/* Drawing Data Card */}
-          <AnimatedCard index={0}>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 text-center card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
-              <p className="text-5xl md:text-6xl font-bold text-accent mb-3">
-                <AnimatedCounter target={1000000} suffix="+" duration={2.5} isMillions={true} language={language} />
-              </p>
-              <p className="text-lg font-semibold text-white mb-2">
-                {t('home.impact.drawings.label')}
-              </p>
-              <p className="text-sm text-white/70">
-                {t('home.impact.drawings.sub')}
-              </p>
-            </div>
-          </AnimatedCard>
-
-          {/* Patents Card */}
-          <AnimatedCard index={1}>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 text-center card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
-              <p className="text-5xl md:text-6xl font-bold text-accent mb-3">
-                <AnimatedCounter target={100} suffix="+" duration={2} isMillions={false} language={language} />
-              </p>
-              <p className="text-lg font-semibold text-white mb-2">
-                {t('home.impact.patents.label')}
-              </p>
-              <p className="text-sm text-white/70">
-                {t('home.impact.patents.sub')}
-              </p>
-            </div>
-          </AnimatedCard>
-        </div>
-      </AnimatedSection>
-    </section>
-
-    {/* Section 6: Company History */}
-    <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 bg-background relative overflow-hidden">
-      {/* Gradient Blobs */}
-      <div className="absolute top-1/4 -right-20 w-80 h-80 rounded-full bg-orange-200/25 blur-3xl blob-animate-slow pointer-events-none" />
-      <div className="absolute bottom-1/4 -left-16 w-64 h-64 rounded-full bg-rose-200/20 blur-3xl blob-animate-medium pointer-events-none" />
-      <AnimatedSection className="container-corporate w-full relative z-10">
-        <div className="text-center mb-12 md:mb-16">
-          <AnimatedTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
-            {t('home.history.title')}
-          </AnimatedTitle>
-        </div>
-
-        <div className="max-w-4xl mx-auto relative">
-          {/* Vertical line - orange */}
-          <motion.div className="absolute left-4 md:left-8 top-0 bottom-0 w-1 bg-accent/40 rounded-full origin-top" initial={{
-            scaleY: 0
-          }} whileInView={{
-            scaleY: 1
-          }} viewport={{
-            once: true
-          }} transition={{
-            duration: 1,
-            ease: "easeOut"
-          }} />
-
-          {displayedYears.map((year, yearIndex) => <motion.div key={year} className="relative mb-10 last:mb-0" initial={{
-            opacity: 0,
-            x: -30
-          }} whileInView={{
-            opacity: 1,
-            x: 0
-          }} viewport={{
-            once: true,
-            margin: "-50px"
-          }} transition={{
-            duration: 0.6,
-            delay: yearIndex * 0.15
-          }}>
-            {/* Year marker - orange circle badge */}
-            <div className="flex items-center mb-5">
-              <motion.div className="absolute left-4 md:left-8 w-5 h-5 -translate-x-1/2 rounded-full bg-accent border-4 border-background shadow-lg z-10" initial={{
-                scale: 0
-              }} whileInView={{
-                scale: 1
-              }} viewport={{
-                once: true
-              }} transition={{
-                duration: 0.3,
-                delay: yearIndex * 0.15 + 0.2
-              }} />
-              <span className="ml-14 md:ml-24 text-2xl md:text-3xl font-bold text-accent">
-                {year}{language === 'ko' ? '년' : ''}
-              </span>
-            </div>
-
-            {/* Events - wrapped in cards */}
-            <div className="ml-14 md:ml-24 space-y-4">
-              {historyData[year as keyof typeof historyData].map((event, eventIndex) => <motion.div key={eventIndex} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-4 border border-slate-100" initial={{
-                opacity: 0,
-                y: 20
-              }} whileInView={{
-                opacity: 1,
-                y: 0
-              }} viewport={{
-                once: true,
-                margin: "-30px"
-              }} transition={{
-                duration: 0.4,
-                delay: yearIndex * 0.1 + eventIndex * 0.05
-              }}>
-                <div className="flex items-start gap-3">
-                  <span className="inline-flex items-center justify-center w-12 h-7 rounded-lg bg-accent/10 text-accent font-semibold text-sm shrink-0 border border-accent/20">
-                    {language === 'ko' ? `${event.month}월` : event.month}
-                  </span>
-                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-                    {event.item}
-                  </p>
+                      </motion.div>
+                    );
+                  })}
                 </div>
-              </motion.div>)}
-            </div>
-          </motion.div>)}
+              </div>
+            </section>
+          );
+        })
+      }
 
-          {/* Show more / less button */}
-          {historyYears.length > 3 && <motion.div className="mt-10 text-center" initial={{
-            opacity: 0
-          }} whileInView={{
-            opacity: 1
-          }} viewport={{
-            once: true
-          }} transition={{
-            duration: 0.5,
-            delay: 0.5
-          }}>
-            <button onClick={() => setShowAllHistory(!showAllHistory)} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 hover:bg-accent/20 text-accent text-sm font-semibold transition-all duration-200 border border-accent/20 hover:border-accent/40">
-              {showAllHistory ? <>
-                {t('about.timeline.showless')}
-                <ChevronUp className="w-4 h-4" />
-              </> : <>
-                {t('about.timeline.showall')}
-                <ChevronDown className="w-4 h-4" />
-              </>}
-            </button>
-          </motion.div>}
+
+
+      {/* Section 4: Impact by Numbers */}
+      <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 relative overflow-hidden">
+        {/* Background Image with Dimmed Overlay */}
+        <div className="absolute inset-0">
+          <img
+            src={impactBgImage}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          {/* Dark Overlay — strong enough for text legibility */}
+          <div className="absolute inset-0 bg-black/93" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/60" />
         </div>
-      </AnimatedSection>
-    </section>
+
+        <AnimatedSection className="container-corporate w-full relative z-10">
+          <div className="text-center mb-12 md:mb-16">
+            <AnimatedTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+              {t('home.impact.section.title')}
+            </AnimatedTitle>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {/* Drawing Data Card */}
+            <AnimatedCard index={0}>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 text-center card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
+                <p className="text-5xl md:text-6xl font-bold text-accent mb-3">
+                  <AnimatedCounter target={1000000} suffix="+" duration={2.5} isMillions={true} language={language} />
+                </p>
+                <p className="text-lg font-semibold text-white mb-2">
+                  {t('home.impact.drawings.label')}
+                </p>
+                <p className="text-sm text-white/70">
+                  {t('home.impact.drawings.sub')}
+                </p>
+              </div>
+            </AnimatedCard>
+
+            {/* Patents Card */}
+            <AnimatedCard index={1}>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 text-center card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
+                <p className="text-5xl md:text-6xl font-bold text-accent mb-3">
+                  <AnimatedCounter target={100} suffix="+" duration={2} isMillions={false} language={language} />
+                </p>
+                <p className="text-lg font-semibold text-white mb-2">
+                  {t('home.impact.patents.label')}
+                </p>
+                <p className="text-sm text-white/70">
+                  {t('home.impact.patents.sub')}
+                </p>
+              </div>
+            </AnimatedCard>
+          </div>
+        </AnimatedSection>
+      </section>
+
+      {/* Section 6: Company History */}
+      <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 bg-background relative overflow-hidden">
+        {/* Gradient Blobs */}
+        <div className="absolute top-1/4 -right-20 w-80 h-80 rounded-full bg-orange-200/25 blur-3xl blob-animate-slow pointer-events-none" />
+        <div className="absolute bottom-1/4 -left-16 w-64 h-64 rounded-full bg-rose-200/20 blur-3xl blob-animate-medium pointer-events-none" />
+        <AnimatedSection className="container-corporate w-full relative z-10">
+          <div className="text-center mb-12 md:mb-16">
+            <AnimatedTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+              {t('home.history.title')}
+            </AnimatedTitle>
+          </div>
+
+          <div className="max-w-4xl mx-auto relative">
+            {/* Vertical line - orange */}
+            <motion.div className="absolute left-4 md:left-8 top-0 bottom-0 w-1 bg-accent/40 rounded-full origin-top" initial={{
+              scaleY: 0
+            }} whileInView={{
+              scaleY: 1
+            }} viewport={{
+              once: true
+            }} transition={{
+              duration: 1,
+              ease: "easeOut"
+            }} />
+
+            {displayedYears.map((year, yearIndex) => <motion.div key={year} className="relative mb-10 last:mb-0" initial={{
+              opacity: 0,
+              x: -30
+            }} whileInView={{
+              opacity: 1,
+              x: 0
+            }} viewport={{
+              once: true,
+              margin: "-50px"
+            }} transition={{
+              duration: 0.6,
+              delay: yearIndex * 0.15
+            }}>
+              {/* Year marker - orange circle badge */}
+              <div className="flex items-center mb-5">
+                <motion.div className="absolute left-4 md:left-8 w-5 h-5 -translate-x-1/2 rounded-full bg-accent border-4 border-background shadow-lg z-10" initial={{
+                  scale: 0
+                }} whileInView={{
+                  scale: 1
+                }} viewport={{
+                  once: true
+                }} transition={{
+                  duration: 0.3,
+                  delay: yearIndex * 0.15 + 0.2
+                }} />
+                <span className="ml-14 md:ml-24 text-2xl md:text-3xl font-bold text-accent">
+                  {year}{language === 'ko' ? '년' : ''}
+                </span>
+              </div>
+
+              {/* Events - wrapped in cards */}
+              <div className="ml-14 md:ml-24 space-y-4">
+                {historyData[year as keyof typeof historyData].map((event, eventIndex) => <motion.div key={eventIndex} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-4 border border-slate-100" initial={{
+                  opacity: 0,
+                  y: 20
+                }} whileInView={{
+                  opacity: 1,
+                  y: 0
+                }} viewport={{
+                  once: true,
+                  margin: "-30px"
+                }} transition={{
+                  duration: 0.4,
+                  delay: yearIndex * 0.1 + eventIndex * 0.05
+                }}>
+                  <div className="flex items-start gap-3">
+                    <span className="inline-flex items-center justify-center w-12 h-7 rounded-lg bg-accent/10 text-accent font-semibold text-sm shrink-0 border border-accent/20">
+                      {language === 'ko' ? `${event.month}월` : event.month}
+                    </span>
+                    <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+                      {event.item}
+                    </p>
+                  </div>
+                </motion.div>)}
+              </div>
+            </motion.div>)}
+
+            {/* Show more / less button */}
+            {historyYears.length > 3 && <motion.div className="mt-10 text-center" initial={{
+              opacity: 0
+            }} whileInView={{
+              opacity: 1
+            }} viewport={{
+              once: true
+            }} transition={{
+              duration: 0.5,
+              delay: 0.5
+            }}>
+              <button onClick={() => setShowAllHistory(!showAllHistory)} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 hover:bg-accent/20 text-accent text-sm font-semibold transition-all duration-200 border border-accent/20 hover:border-accent/40">
+                {showAllHistory ? <>
+                  {t('about.timeline.showless')}
+                  <ChevronUp className="w-4 h-4" />
+                </> : <>
+                  {t('about.timeline.showall')}
+                  <ChevronDown className="w-4 h-4" />
+                </>}
+              </button>
+            </motion.div>}
+          </div>
+        </AnimatedSection>
+      </section>
 
 
-    {/* Unified Footer inside scroll container */}
-    <Footer variant="inline" />
-  </>;
+      {/* Unified Footer inside scroll container */}
+      <div className="scroll-snap-section snap-auto">
+        <Footer variant="inline" />
+      </div>
+    </div>
+  );
 }
