@@ -40,14 +40,14 @@ export default function ProductsPage() {
   return (
     <>
       <SEO titleKey="nav.products" />
-      
-      <div className="pt-24 md:pt-32 pb-20 bg-[#0A0A0A] min-h-screen">
+
+      <div className="pt-24 md:pt-32 pb-20 bg-background min-h-screen">
         {/* Hero */}
         <section className="container-corporate mb-16 md:mb-24">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
             {t('products.title')}
           </h1>
-          <p className="text-xl md:text-2xl text-white/60 max-w-3xl">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl">
             {t('products.subtitle')}
           </p>
         </section>
@@ -58,28 +58,28 @@ export default function ProductsPage() {
             {products.map((product, index) => (
               <div
                 key={index}
-                className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col"
+                className="bg-white border border-slate-100 rounded-2xl overflow-hidden card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col shadow-sm"
               >
                 {/* Product Image */}
                 <div className="aspect-[4/3] overflow-hidden">
-                  <img 
-                    src={product.image} 
+                  <img
+                    src={product.image}
                     alt={t(product.nameKey)}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                
+
                 {/* Product info */}
                 <div className="p-6 flex flex-col flex-1">
-                  <h2 className="text-xl font-bold mb-3 text-white">
+                  <h2 className="text-xl font-bold mb-3 text-slate-800">
                     {t(product.nameKey)}
                   </h2>
-                  <p className="text-sm text-white/60 mb-6 flex-1 leading-relaxed">
+                  <p className="text-sm text-slate-500 mb-6 flex-1 leading-relaxed">
                     {t(product.descKey)}
                   </p>
-                  
+
                   {product.comingSoon ? (
-                    <span className="inline-flex items-center justify-center gap-2 bg-white/5 text-white/40 px-5 py-2.5 rounded-lg font-medium cursor-not-allowed">
+                    <span className="inline-flex items-center justify-center gap-2 bg-slate-100 text-slate-400 px-5 py-2.5 rounded-lg font-medium cursor-not-allowed">
                       {t('products.comingsoon')}
                     </span>
                   ) : (

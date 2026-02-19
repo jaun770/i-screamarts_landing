@@ -14,7 +14,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Brand
     'brand.name': '아이스크림아트',
     'brand.tagline': '아트 × 교육 × 테크놀로지',
-    
+
     // Navigation
     'nav.home': '홈',
     'nav.about': '회사 소개',
@@ -22,19 +22,19 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.blog': '블로그',
     'nav.news': '뉴스',
     'nav.contact': '문의하기',
-    
+
     // CTAs (Corporate-appropriate only)
     'cta.explore_products': '제품 살펴보기',
     'cta.read_blog': '블로그 읽기',
     'cta.contact': '문의하기',
     'cta.partnership': '파트너십 문의',
     'cta.learn_more': '더 알아보기',
-    
+
     // Home - Hero (visible copy)
     'home.headline': '전세계 어린이 행복 네트워크',
     'home.slogan': '아이들의 행복, 아트봉봉에서 시작합니다.',
     'home.micro': 'i-Scream arts는 ART BONBON을 통해 드로잉 스킬·글로벌 갤러리·정서 케어 경험을 만드는 디지털 아트 기반 글로벌 에듀테크 기업입니다.',
-    
+
     // Home - What We Do
     'home.whatwedo.title': 'What We Do',
     'home.whatwedo.subtitle': '아이들의 행복은 아트봉봉에서 시작합니다',
@@ -44,9 +44,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.whatwedo.global.desc': '전 세계 어린이의 재능을 발굴하고 글로벌 아티스트로 성장할 기회를 제공합니다',
     'home.whatwedo.care.title': '마음 건강·정서 케어',
     'home.whatwedo.care.desc': 'SEL 기반 심리 케어로 정서적 위기를 조기 발견하고 회복탄력성을 강화합니다',
-    
+
     // (Solution keys moved to section 117+)
-    
+
     // Home - How It Works
     'home.howitworks.title': 'How It Works',
     'home.howitworks.subtitle': '전세계 아이들 누구나 즐겁고 행복하게 그림을 그릴 수 있는 드로잉 툴',
@@ -60,12 +60,12 @@ const translations: Record<Language, Record<string, string>> = {
     'home.howitworks.live.title': '실시간 1:1 수업',
     'home.howitworks.live.desc': '전문 강사와 실시간 인터랙티브 수업',
     'home.howitworks.screenshot.placeholder': '드로잉 툴 스크린샷',
-    
+
     // (Impact keys moved to section 145+)
     // Home - SEO-only (long definition for meta/schema)
     'home.definition': '아이스크림아트는 교육 현장에서 교사와 학습자의 창의적·표현적·정서적 학습을 지원하는 디지털 도구·프로그램·플랫폼을 개발하는 아트 테크 기업입니다.',
     'home.subline': '전세계 어린이 행복 네트워크',
-    
+
     // Home - Core Services (Section 2) - from deck categories
     'home.services.title': '핵심 서비스',
     'home.services.drawing.title': '드로잉 툴',
@@ -80,7 +80,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.psychology.desc': '그림을 통한 심리 상태 및 성향 분석',
     'home.services.metadata.title': '그림-심리 메타데이터 추출',
     'home.services.metadata.desc': '그림에서 심리 메타데이터를 추출하는 기술',
-    
+
     // Home - 7 Core Values Section
     'home.values.section.title': '7대 가치',
     'home.values.1.title': '창의력∙상상력 극대화',
@@ -97,18 +97,18 @@ const translations: Record<Language, Record<string, string>> = {
     'home.values.3.desc': '세계 곳곳의 재능 발현 및 글로벌 아티스트의 탄생',
     'home.values.7.title': '숨은 재능∙적성 파악',
     'home.values.7.desc': '작품∙데이터 학습으로 숨은 재능, 적성, 진로 탐색',
-    
+
     // Home - Our Solutions Section
     'home.solution.section.title': '우리의 솔루션',
     'home.solution.creative.title': '창작 플랫폼',
-    'home.solution.creative.desc': '수채화, 유화 등 전문가 수준의 디지털 드로잉 툴이 제공되는 창작 플랫폼',
+    'home.solution.creative.desc': '수채화, 유화 등 전문가 수준의 디지털 드로잉 도구로 어린이들이 언제 어디서나 창의적으로 작품을 만들고 표현할 수 있습니다.',
     'home.solution.gallery.title': '글로벌 디지털 갤러리',
-    'home.solution.gallery.desc': '그림 전시 및 교류, 세계시민의식 함양이 가능한 소통 플랫폼',
-    'home.solution.ai.title': 'AI 기술',
-    'home.solution.ai.desc': '그림 빅데이터 기반의 정확한 분석과 피드백 제공',
-    'home.solution.care.title': '마음 건강∙정서 케어',
-    'home.solution.care.desc': '사회정서교육 기반의 심리 케어 및 성장 모니터링 서비스',
-    
+    'home.solution.gallery.desc': '전 세계 어린이들이 서로의 작품을 전시하고 공유하며, 글로벌 시민의식과 문화 감수성을 함께 키워갑니다.',
+    'home.solution.ai.title': 'AI 분석 기술',
+    'home.solution.ai.desc': '그림 빅데이터와 AI를 결합해 아이의 드로잉 성향·수준을 정밀 분석하고, 맞춤형 학습 피드백을 자동으로 제공합니다.',
+    'home.solution.care.title': '마음 건강·정서 케어',
+    'home.solution.care.desc': '사회정서학습(SEL) 기반의 그림심리검사로 아이의 정서 상태를 조기에 파악하고, 그림 치유 활동으로 마음 건강을 지원합니다.',
+
     // Home - Solution Details Section
     'home.detail.drawing.title': '디지털 드로잉 툴',
     'home.detail.drawing.desc': '전세계 아이들 누구나 즐겁고 행복하게 그림을 그릴 수 있는 드로잉 툴',
@@ -131,42 +131,42 @@ const translations: Record<Language, Record<string, string>> = {
     'home.detail.care.feature1': 'AI 마음 체크업: 마음을 점검하고 위기 발견',
     'home.detail.care.feature2': 'AI 마음 테라피: 그림 활동을 통한 마음 챙김',
     'home.detail.care.feature3': '마음 비타민 봉봉: 매일 스스로 하는 그림 치유 활동',
-    
+
     // Home - Impact Section
     'home.impact.section.title': '숫자로 보는 아트봉봉 임팩트',
     'home.impact.drawings.label': '누적 그림 데이터',
     'home.impact.drawings.sub': '출시 10개월만의 성과',
     'home.impact.patents.label': '글로벌 특허 보유',
     'home.impact.patents.sub': '국내 70건 & 해외 23건',
-    
+
     // Home - History Section
     'home.history.title': '연혁',
-    
+
     // Home - Products (for section display)
     'home.products.title': '제품 포트폴리오',
     'home.products.visit': '자세히 보기',
-    
+
     // Product 1: Art Bon Bon (B2C)
     'home.products.b2c.name': '아트봉봉',
     'home.products.b2c.subtitle': '아이들 창의력을 극대화하는 디지털 드로잉 툴',
     'home.products.b2c.desc': '340여개 클래스 중 아이의 관심과 흥미에 따라 자유롭게 선택하세요. 시간·장소의 제약 없이, 준비물과 뒷정리 없이 1:1 실시간 인터랙티브 클래스로 집에서 창의성을 키울 수 있습니다.',
     'home.products.b2c.who': '가정의 아이들과 학부모',
     'home.products.b2c.when': '가정 학습 및 여가 시간',
-    
+
     // Product 2: Art Bon Bon School
     'home.products.school.name': '아트봉봉스쿨',
     'home.products.school.subtitle': '교육기관을 위한 AI 기반 미술교육 솔루션',
     'home.products.school.desc': '수업 준비부터 학습 관리까지 교사의 업무 부담을 줄이고, 학생별 진도와 창작 결과를 한눈에 관리할 수 있습니다. 정규 수업·방과 후·특기적성 등 다양한 교육 환경에 즉시 적용 가능합니다.',
     'home.products.school.who': '교사 및 교육기관',
     'home.products.school.when': '수업 시간 및 방과 후 활동',
-    
+
     // Product 3: Art Bon Bon École
     'home.products.ecole.name': '아트봉봉 에꼴',
     'home.products.ecole.subtitle': '글로벌 교육 파트너를 위한 다국어 아트 플랫폼',
     'home.products.ecole.desc': '영어·프랑스어·스페인어 등 다국어를 지원하며, 지역별 교육 과정에 맞춰 커스터마이징할 수 있습니다. 해외 학교·학원·교육 기관과의 파트너십을 통해 전 세계 아이들에게 창의적 미술 경험을 제공합니다.',
     'home.products.ecole.who': '글로벌 교육 파트너',
     'home.products.ecole.when': '다국어 교육 환경',
-    
+
     // Home - Resources Preview
     'home.resources.title': '리소스',
     'home.resources.guides': '교사 가이드',
@@ -177,14 +177,14 @@ const translations: Record<Language, Record<string, string>> = {
     'home.resources.sel.desc': '사회정서학습과 미술',
     'home.resources.trends': '글로벌 트렌드',
     'home.resources.trends.desc': '글로벌 아트교육 동향',
-    
+
     // Home - Newsroom
     'home.newsroom.title': '뉴스룸',
     'home.newsroom.view_all': '모든 뉴스 보기',
-    
+
     // About Page
     'about.title': '회사 소개',
-    
+
     // About - Founder's Note (Block 1)
     'about.founder.title': '창업자 인사말',
     'about.founder.greeting': '안녕하세요, 아이스크림아트입니다.',
@@ -193,7 +193,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.founder.name': 'i-Scream arts 창립자',
     'about.founder.role': 'Founder & CEO',
     'about.founder.photo.placeholder': '창립자 사진',
-    
+
     // About - Mission & Philosophy (Block 2)
     'about.mission.title': '미션 · 철학',
     'about.mission.statement': '드로잉 스킬은 미래 경쟁력입니다',
@@ -203,7 +203,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.mission.pillar1': '예술의 표현력',
     'about.mission.pillar2': '교육의 체계',
     'about.mission.pillar3': '기술의 접근성',
-    
+
     // About - Technology & Patents (Block 3)
     'about.tech.title': '기술력 & 특허',
     'about.tech.patents': '글로벌 특허 100여개 보유',
@@ -211,7 +211,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.tech.overseas': '해외 23건',
     'about.tech.papers': '국외 논문 게재',
     'about.tech.areas': '드로잉 툴 / AI 기술 및 솔루션 / 그림심리검사 & 성향 분석',
-    
+
     // About - 7 Core Values (Block 4) - matching home order
     'about.values.title': '7가지 핵심가치',
     'about.values.subtitle': '아트봉봉이 추구하는 핵심 가치와 철학입니다.',
@@ -222,7 +222,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.values.5.detail': '축적된 그림-심리 빅데이터를 기반으로 정확하고 의미있는 분석과 피드백을 제공합니다.',
     'about.values.6.detail': '사회정서교육(SEL) 기반의 심리 케어로 정서적 위기를 조기에 발견하고 회복력을 강화합니다.',
     'about.values.7.detail': '아이들의 작품과 활동 데이터를 학습하여 숨겨진 재능과 적성을 발견하고, 미래 진로 탐색을 돕습니다.',
-    
+
     // About - Core Services Map (Block 4) - matching deck categories
     'about.services.title': '핵심 서비스 맵',
     'about.services.subtitle': '우리가 제공하는 핵심 서비스와 솔루션입니다.',
@@ -232,7 +232,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.services.education.detail': 'AI 기반 맞춤형 미술교육 시스템으로 개인별 학습 경험을 제공합니다.',
     'about.services.psychology.detail': '그림을 통해 심리 상태와 성향을 분석하여 의미있는 피드백을 제공합니다.',
     'about.services.metadata.detail': '그림에서 심리 메타데이터를 추출하여 정서적 상태를 파악합니다.',
-    
+
     // About - Timeline (Block 5)
     'about.timeline.title': '주요 연혁',
     'about.timeline.2024.singapore': '2024 에듀테크 아시아 싱가포르 전시',
@@ -243,7 +243,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.timeline.expand': '전체 연혁 보기',
     'about.timeline.showall': '모든 마일스톤 보기',
     'about.timeline.showless': '간략히 보기',
-    
+
     // About Legacy
     'about.why.title': '우리가 존재하는 이유',
     'about.why.desc': '모든 아이들이 예술을 통해 자신을 표현하고, 감정을 탐색하며, 창의적 자신감을 기를 수 있어야 한다고 믿습니다.',
@@ -251,25 +251,25 @@ const translations: Record<Language, Record<string, string>> = {
     'about.perspective.desc': '예술의 표현력, 교육의 체계성, 기술의 접근성을 결합하여 새로운 학습 경험을 만들어갑니다.',
     'about.direction.title': '장기 방향',
     'about.direction.desc': '전 세계 교육 현장에서 창의적 학습의 표준이 되는 것을 목표로 합니다.',
-    
+
     // Products Page
     'products.title': '제품',
     'products.subtitle': '어린이 행복 네트워크를 만드는 아트 솔루션',
     'products.viewdetails': '자세히 보기',
     'products.comingsoon': '준비 중',
-    
+
     // Product 1: ART BONBON
     'products.artbonbon.name': '아트봉봉',
     'products.artbonbon.desc': '아이들 창의력을 극대화하는 디지털 드로잉 툴',
-    
+
     // Product 2: ART BONBON SCHOOL
     'products.school.name': '아트봉봉 스쿨',
     'products.school.desc': '교육기관을 위한 AI 기반 미술교육 솔루션',
-    
+
     // Product 3: Gallery
     'products.gallery.name': '갤러리',
     'products.gallery.desc': '글로벌 소통을 위한 아트 플랫폼',
-    
+
     // Resources Page
     'resources.title': '리소스',
     'resources.subtitle': '교육자와 학습자를 위한 자료',
@@ -284,7 +284,7 @@ const translations: Record<Language, Record<string, string>> = {
     'resources.featured.card3.badge': '아트 & SEL',
     'resources.featured.card3.title': '정서적 웰빙을 위한 그림 그리기',
     'resources.featured.card3.desc': '예술과 정신 건강에 대한 연구 기반 인사이트',
-    
+
     // Newsroom Page
     'newsroom.title': '뉴스룸',
     'newsroom.subtitle': '최신 소식과 업데이트',
@@ -292,28 +292,28 @@ const translations: Record<Language, Record<string, string>> = {
     'newsroom.events': '이벤트',
     'newsroom.awards': '수상',
     'newsroom.partnerships': '파트너십',
-    
+
     // Contact Page
     'contact.title': '문의하기',
     'contact.subtitle': '어떤 문의든 환영합니다',
-    
+
     // Contact Tabs (English only)
     'contact.tab.partnership': '제휴 문의',
     'contact.tab.artbonbon': 'ART BONBON 문의',
     'contact.tab.school': 'ART BONBON SCHOOL 문의',
-    
+
     // HappyTalk (Korean only)
     'contact.happytalk.title': '문의하기',
     'contact.happytalk.desc': '해피톡을 통해 빠르게 문의하세요.',
     'contact.happytalk.button': '문의하기',
-    
+
     // Location Section
     'contact.location.title': '찾아오시는 길',
     'contact.location.address.label': '주소',
     'contact.location.address': '경기도 성남시 분당구 대왕판교로 660, B1F 패스트파이브 121호 (유스페이스1) (주)아이스크림아트',
     'contact.location.phone.label': '전화번호',
     'contact.location.email.label': '이메일',
-    
+
     // Contact Form
     'contact.form.title': '문의하기',
     'contact.form.select': '선택해 주세요',
@@ -353,8 +353,8 @@ const translations: Record<Language, Record<string, string>> = {
     'contact.form.subject.placeholder': '문의 제목을 입력하세요',
     'contact.form.message': '메시지',
     'contact.form.message.placeholder': '문의 내용을 입력하세요',
-    
-    
+
+
     // Footer
     'footer.company': '회사',
     'footer.products': '제품',
@@ -369,7 +369,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Brand
     'brand.name': 'i-Scream arts',
     'brand.tagline': 'Art × Education × Technology',
-    
+
     // Navigation
     'nav.home': 'Home',
     'nav.about': 'About',
@@ -377,19 +377,19 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.blog': 'Blog',
     'nav.news': 'News',
     'nav.contact': 'Contact',
-    
+
     // CTAs (Corporate-appropriate only)
     'cta.explore_products': 'Explore Products',
     'cta.read_blog': 'Read Blog',
     'cta.contact': 'Contact',
     'cta.partnership': 'Partnership Inquiry',
     'cta.learn_more': 'Learn More',
-    
+
     // Home - Hero (visible copy)
     'home.headline': 'Global Happiness Network for Children',
     'home.slogan': "Children's happiness starts with ART BONBON.",
     'home.micro': 'i-Scream arts is a digital art-based global EdTech company creating drawing skills, global gallery, and emotional care experiences through ART BONBON.',
-    
+
     // Home - What We Do
     'home.whatwedo.title': 'What We Do',
     'home.whatwedo.subtitle': "Children's happiness starts with ART BONBON",
@@ -399,9 +399,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.whatwedo.global.desc': 'Discover talents worldwide and provide opportunities to grow as global artists',
     'home.whatwedo.care.title': 'Mental Health & Emotional Care',
     'home.whatwedo.care.desc': 'SEL-based psychological care for early crisis detection and resilience building',
-    
+
     // (Solution keys moved to new sections)
-    
+
     // Home - 7 Core Values Section
     'home.values.section.title': '7 Core Values',
     'home.values.1.title': 'Boosting Creativity & Imagination',
@@ -418,7 +418,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.values.3.desc': 'Discovering talent worldwide and nurturing global artists',
     'home.values.7.title': 'Identification of Hidden Talents & Aptitudes',
     'home.values.7.desc': 'Discovering hidden talents, aptitudes, and career paths through artwork and data',
-    
+
     // Home - Our Solutions Section
     'home.solution.section.title': 'Our Solutions',
     'home.solution.creative.title': 'Creative Platform',
@@ -429,7 +429,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.solution.ai.desc': 'Accurate analysis and feedback based on drawing big data',
     'home.solution.care.title': 'Mental Health & Emotional Care',
     'home.solution.care.desc': 'Digital art based mental well-being program',
-    
+
     // Home - Solution Details Section
     'home.detail.drawing.title': 'Digital Drawing Tools',
     'home.detail.drawing.desc': 'Drawing tools where children around the world can draw happily and joyfully',
@@ -452,46 +452,46 @@ const translations: Record<Language, Record<string, string>> = {
     'home.detail.care.feature1': 'AI Mind Checkup: Check your mind and detect crises',
     'home.detail.care.feature2': 'AI Mind Therapy: Mindfulness through art activities',
     'home.detail.care.feature3': 'Mind Vitamin BONBON: Daily self-healing art activities',
-    
+
     // Home - Impact Section
     'home.impact.section.title': 'ART BONBON Impact by Numbers',
     'home.impact.drawings.label': 'Cumulative Drawing Data',
     'home.impact.drawings.sub': 'Achievement in just 10 months since launch',
     'home.impact.patents.label': 'Global Patents',
     'home.impact.patents.sub': '70 domestic & 23 overseas',
-    
+
     // Home - History Section
     'home.history.title': 'Company History',
-    
+
     // Home - Contact
     'home.contact.title': "Let's Build Together",
     'home.contact.desc': 'Reach out for partnerships, collaborations, or inquiries.',
-    
+
     // Home - Products
     'home.products.title': 'Product Portfolio',
     'home.products.visit': 'Visit Website',
-    
+
     // Product 1: Art Bon Bon (B2C)
     'home.products.b2c.name': 'ART BONBON',
     'home.products.b2c.subtitle': 'Digital drawing tool that maximizes children\'s creativity',
     'home.products.b2c.desc': 'Choose freely from over 340 classes based on your child\'s interests. Build creativity at home with 1:1 real-time interactive classes—no time or location limits, no supplies or cleanup needed.',
     'home.products.b2c.who': 'Children & Parents at Home',
     'home.products.b2c.when': 'Home Learning & Leisure Time',
-    
+
     // Product 2: Art Bon Bon School
     'home.products.school.name': 'ART BONBON SCHOOL',
     'home.products.school.subtitle': 'AI-powered art education solution for educational institutions',
     'home.products.school.desc': 'From lesson prep to learning management, reduce teacher workload while tracking each student\'s progress and creative outputs at a glance. Ready for regular classes, after-school programs, and extracurricular activities.',
     'home.products.school.who': 'Teachers & Educational Institutions',
     'home.products.school.when': 'Classroom & After-school Activities',
-    
+
     // Product 3: Art Bon Bon École
     'home.products.ecole.name': 'ART BONBON ÉCOLE',
     'home.products.ecole.subtitle': 'Multilingual art platform for global education partners',
     'home.products.ecole.desc': 'Supports English, French, Spanish, and more—customizable to regional curricula. Through partnerships with schools and educational institutions worldwide, we bring creative art experiences to children everywhere.',
     'home.products.ecole.who': 'Global Education Partners',
     'home.products.ecole.when': 'Multilingual Education Environments',
-    
+
     // Home - Resources Preview
     'home.resources.title': 'Resources',
     'home.resources.guides': 'Teacher Guides',
@@ -502,14 +502,14 @@ const translations: Record<Language, Record<string, string>> = {
     'home.resources.sel.desc': 'Social-emotional learning and art',
     'home.resources.trends': 'Global Trends',
     'home.resources.trends.desc': 'Global art education trends',
-    
+
     // Home - Newsroom
     'home.newsroom.title': 'Newsroom',
     'home.newsroom.view_all': 'View All News',
-    
+
     // About Page
     'about.title': 'About Us',
-    
+
     // About - Founder's Note (Block 1)
     'about.founder.title': "Founder's Note",
     'about.founder.greeting': 'Hello, we are i-Scream arts.',
@@ -518,7 +518,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.founder.name': 'i-Scream arts Founder',
     'about.founder.role': 'Founder & CEO',
     'about.founder.photo.placeholder': 'Founder Photo',
-    
+
     // About - Mission & Philosophy (Block 2)
     'about.mission.title': 'Mission & Philosophy',
     'about.mission.statement': 'Drawing skills are a future competency',
@@ -528,7 +528,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.mission.pillar1': 'Expression of Art',
     'about.mission.pillar2': 'Structure of Education',
     'about.mission.pillar3': 'Accessibility of Tech',
-    
+
     // About - Technology & Patents (Block 3)
     'about.tech.title': 'Technology & Patents',
     'about.tech.patents': '100+ Global Patents',
@@ -536,7 +536,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.tech.overseas': '23 overseas',
     'about.tech.papers': 'International Publications',
     'about.tech.areas': 'Drawing Tools / AI Technology & Solutions / Drawing Psychology & Trait Analysis',
-    
+
     // About - 7 Core Values (Block 4) - matching home order
     'about.values.title': '7 Core Values',
     'about.values.subtitle': 'The core values and philosophy that ART BONBON pursues.',
@@ -547,7 +547,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.values.5.detail': 'Based on accumulated drawing-psychology big data, we provide accurate and meaningful analysis and feedback.',
     'about.values.6.detail': 'Through SEL-based psychological care, we detect emotional crises early and strengthen resilience.',
     'about.values.7.detail': "We analyze children's artwork and activity data to discover hidden talents and aptitudes, helping them explore future career paths.",
-    
+
     // About - Core Services Map (Block 4) - matching deck categories
     'about.services.title': 'Core Services Map',
     'about.services.subtitle': 'Our core services and solutions for creative learning.',
@@ -557,7 +557,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.services.education.detail': 'AI-based personalized art education system providing individual learning experiences.',
     'about.services.psychology.detail': 'Analyze psychological state and traits through drawings to provide meaningful feedback.',
     'about.services.metadata.detail': 'Extract psychological metadata from drawings to understand emotional states.',
-    
+
     // About - Timeline (Block 5)
     'about.timeline.title': 'Key Milestones',
     'about.timeline.2024.singapore': '2024 Edutech Asia Singapore Exhibition',
@@ -568,7 +568,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.timeline.expand': 'View Full Timeline',
     'about.timeline.showall': 'Show All Milestones',
     'about.timeline.showless': 'Show Less',
-    
+
     // About Legacy
     'about.why.title': 'Why We Exist',
     'about.why.desc': 'We believe every child should be able to express themselves through art, explore their emotions, and develop creative confidence.',
@@ -576,25 +576,25 @@ const translations: Record<Language, Record<string, string>> = {
     'about.perspective.desc': 'We combine the expressiveness of art, the structure of education, and the accessibility of technology to create new learning experiences.',
     'about.direction.title': 'Long-term Direction',
     'about.direction.desc': 'Our goal is to become the standard for creative learning in educational settings worldwide.',
-    
+
     // Products Page
     'products.title': 'Products',
     'products.subtitle': 'Art solutions creating a global happiness network for children',
     'products.viewdetails': 'View Details',
     'products.comingsoon': 'Coming Soon',
-    
+
     // Product 1: ART BONBON
     'products.artbonbon.name': 'ART BONBON',
     'products.artbonbon.desc': 'Digital drawing tool that maximizes children\'s creativity',
-    
+
     // Product 2: ART BONBON SCHOOL
     'products.school.name': 'ART BONBON SCHOOL',
     'products.school.desc': 'AI-powered art education solution for educational institutions',
-    
+
     // Product 3: Gallery
     'products.gallery.name': 'Gallery',
     'products.gallery.desc': 'Art platform for global communication',
-    
+
     // Resources Page
     'resources.title': 'Resources',
     'resources.subtitle': 'Materials for educators and learners',
@@ -609,7 +609,7 @@ const translations: Record<Language, Record<string, string>> = {
     'resources.featured.card3.badge': 'Art & SEL',
     'resources.featured.card3.title': 'Drawing for Emotional Wellbeing',
     'resources.featured.card3.desc': 'Research-based insights on art and mental health',
-    
+
     // Newsroom Page
     'newsroom.title': 'Newsroom',
     'newsroom.subtitle': 'Latest news and updates',
@@ -617,28 +617,28 @@ const translations: Record<Language, Record<string, string>> = {
     'newsroom.events': 'Events',
     'newsroom.awards': 'Awards',
     'newsroom.partnerships': 'Partnerships',
-    
+
     // Contact Page
     'contact.title': 'Contact',
     'contact.subtitle': 'We welcome all inquiries',
-    
+
     // Contact Tabs
     'contact.tab.partnership': 'Partnership Inquiry',
     'contact.tab.artbonbon': 'ART BONBON Inquiry',
     'contact.tab.school': 'ART BONBON SCHOOL Inquiry',
-    
+
     // HappyTalk (Korean only - not used in EN but included for consistency)
     'contact.happytalk.title': 'Contact Us',
     'contact.happytalk.desc': 'Contact us quickly through HappyTalk.',
     'contact.happytalk.button': 'Contact Us',
-    
+
     // Location Section
     'contact.location.title': 'How to Find Us',
     'contact.location.address.label': 'Address',
     'contact.location.address': 'B1F Room 121, FastFive, 660 Daewang Pangyo-ro, Bundang-gu, Seongnam-si, Gyeonggi-do (U-Space 1), i-Scream arts Co., Ltd.',
     'contact.location.phone.label': 'Phone',
     'contact.location.email.label': 'Email',
-    
+
     // Contact Form
     'contact.form.title': 'Send us a message',
     'contact.form.select': 'Please select',
@@ -664,8 +664,8 @@ const translations: Record<Language, Record<string, string>> = {
     'contact.form.subject.placeholder': 'Enter inquiry subject',
     'contact.form.message': 'Message',
     'contact.form.message.placeholder': 'Enter your message',
-    
-    
+
+
     // Footer
     'footer.company': 'Company',
     'footer.products': 'Products',
@@ -685,7 +685,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('icecreamart-lang');
       if (saved === 'ko' || saved === 'en') return saved;
-      
+
       const browserLang = navigator.language.toLowerCase();
       if (browserLang.startsWith('ko')) return 'ko';
     }

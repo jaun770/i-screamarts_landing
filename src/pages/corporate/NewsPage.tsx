@@ -41,42 +41,45 @@ export default function NewsroomPage() {
   return (
     <>
       <SEO titleKey="nav.newsroom" />
-      
-      <div className="pt-24 md:pt-32 pb-20 bg-[#0A0A0A] min-h-screen">
+
+      <div className="pt-24 md:pt-32 pb-20 bg-background min-h-screen">
         {/* Hero */}
         <section className="container-corporate mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
             {language === 'ko' ? '뉴스' : 'News'}
           </h1>
-          <p className="text-xl md:text-2xl text-white/60 max-w-3xl">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl">
             {t('newsroom.subtitle')}
           </p>
         </section>
 
         {/* News List */}
         <section className="container-corporate">
-          <div className="space-y-8">
+          <div className="space-y-4">
             {newsItems.map((item, index) => (
               <a
                 key={index}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block bg-[#1A1A1A] border border-white/10 rounded-xl p-6 md:p-8 card-hover cursor-pointer transition-all duration-200 hover:shadow-lg hover:border-accent/30"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 bg-white border border-slate-100 rounded-xl p-6 md:p-8 hover:shadow-md hover:border-accent/30 transition-all duration-200"
               >
-                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                  <div className="shrink-0">
-                    <p className="text-sm text-white/50 font-mono">
-                      {item.date}
-                    </p>
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-xl md:text-2xl font-semibold text-white group-hover:text-accent transition-colors">
-                      {language === 'ko' ? item.titleKo : item.titleEn}
-                    </h2>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-white/40 group-hover:text-accent transition-all shrink-0 hidden md:block" />
+                {/* Date */}
+                <div className="shrink-0">
+                  <p className="text-sm text-slate-400 font-mono tabular-nums">
+                    {item.date}
+                  </p>
                 </div>
+
+                {/* Title */}
+                <div className="flex-1">
+                  <h2 className="text-base md:text-lg font-semibold text-slate-800 group-hover:text-accent transition-colors leading-snug [word-break:keep-all]">
+                    {language === 'ko' ? item.titleKo : item.titleEn}
+                  </h2>
+                </div>
+
+                {/* External icon */}
+                <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-accent transition-all shrink-0 hidden md:block" />
               </a>
             ))}
           </div>

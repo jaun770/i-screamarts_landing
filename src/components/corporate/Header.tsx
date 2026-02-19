@@ -15,8 +15,8 @@ function LanguageToggle() {
   };
 
   return (
-    <div 
-      className="flex items-center rounded-lg border border-white/10 bg-white/5 p-0.5"
+    <div
+      className="flex items-center rounded-lg border border-slate-200 bg-slate-100 p-0.5"
       role="radiogroup"
       aria-label="Select language"
     >
@@ -25,8 +25,8 @@ function LanguageToggle() {
         className={cn(
           "px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200",
           language === 'en'
-            ? "bg-white/10 text-white shadow-sm"
-            : "text-white/60 hover:text-white"
+            ? "bg-white text-slate-900 shadow-sm"
+            : "text-slate-500 hover:text-slate-800"
         )}
         role="radio"
         aria-checked={language === 'en'}
@@ -39,8 +39,8 @@ function LanguageToggle() {
         className={cn(
           "px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200",
           language === 'ko'
-            ? "bg-white/10 text-white shadow-sm"
-            : "text-white/60 hover:text-white"
+            ? "bg-white text-slate-900 shadow-sm"
+            : "text-slate-500 hover:text-slate-800"
         )}
         role="radio"
         aria-checked={language === 'ko'}
@@ -85,17 +85,26 @@ export function Header() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 bg-[rgba(10,10,10,0.92)] backdrop-blur-[12px] border-b border-white/8"
+        className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-[12px] border-b border-slate-200/80"
       >
         <div className="container-corporate">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
+              onClick={() => {
+                // Scroll snap container back to top (hero section)
+                const snapContainer = document.querySelector('.scroll-snap-container') as HTMLElement | null;
+                if (snapContainer) {
+                  snapContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
               className="flex items-center gentle-animation hover:opacity-80"
             >
-              <img 
-                src={logoIscreamarts} 
+              <img
+                src={logoIscreamarts}
                 alt={language === 'ko' ? '아이스크림아트 로고' : 'i-Scream arts logo'}
                 className="h-8 md:h-10 w-auto"
               />
@@ -111,7 +120,7 @@ export function Header() {
                     'text-sm font-medium transition-colors duration-200',
                     isActive(item.path)
                       ? 'text-accent'
-                      : 'text-white/70 hover:text-white'
+                      : 'text-slate-600 hover:text-slate-900'
                   )}
                 >
                   {item.label}
@@ -127,7 +136,7 @@ export function Header() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 -mr-2 text-white"
+                className="md:hidden p-2 -mr-2 text-slate-700"
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (

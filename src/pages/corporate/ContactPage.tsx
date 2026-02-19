@@ -28,49 +28,49 @@ export default function ContactPage() {
     window.open('https://happytalk.io/i-screamarts', '_blank');
   };
 
-  const inputClasses = "w-full px-4 py-3 rounded-lg border border-white/10 bg-[#1A1A1A] text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors";
+  const inputClasses = "w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors";
 
   return (
     <>
       <SEO titleKey="nav.contact" />
-      
-      <div className="pt-24 md:pt-32 pb-20 bg-[#0A0A0A] min-h-screen">
+
+      <div className="pt-24 md:pt-32 pb-20 bg-background min-h-screen">
         {/* Hero */}
         <section className="container-corporate mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
             {t('contact.title')}
           </h1>
-          <p className="text-xl md:text-2xl text-white/60 max-w-3xl">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl">
             {t('contact.subtitle')}
           </p>
         </section>
 
         {/* Contact Form Section */}
         <section className="container-corporate mb-20">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-white">
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-foreground">
             {t('contact.form.title')}
           </h2>
-          
+
           <div className="max-w-3xl">
             {language === 'en' ? (
               // English: 3 Tabs with Email Forms
               <Tabs value={activeTab} onValueChange={(val) => setActiveTab(val as InquiryTab)} className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-8 h-auto p-1 bg-white/5 border border-white/10">
-                  <TabsTrigger 
-                    value="partnership" 
-                    className="py-3 text-sm text-white/60 data-[state=active]:bg-accent data-[state=active]:text-white"
+                <TabsList className="grid w-full grid-cols-3 mb-8 h-auto p-1 bg-slate-100 border border-slate-200">
+                  <TabsTrigger
+                    value="partnership"
+                    className="py-3 text-sm text-slate-600 data-[state=active]:bg-accent data-[state=active]:text-white"
                   >
                     {t('contact.tab.partnership')}
                   </TabsTrigger>
-                  <TabsTrigger 
+                  <TabsTrigger
                     value="artbonbon"
-                    className="py-3 text-sm text-white/60 data-[state=active]:bg-accent data-[state=active]:text-white"
+                    className="py-3 text-sm text-slate-600 data-[state=active]:bg-accent data-[state=active]:text-white"
                   >
                     {t('contact.tab.artbonbon')}
                   </TabsTrigger>
-                  <TabsTrigger 
+                  <TabsTrigger
                     value="school"
-                    className="py-3 text-sm text-white/60 data-[state=active]:bg-accent data-[state=active]:text-white"
+                    className="py-3 text-sm text-slate-600 data-[state=active]:bg-accent data-[state=active]:text-white"
                   >
                     {t('contact.tab.school')}
                   </TabsTrigger>
@@ -81,7 +81,7 @@ export default function ContactPage() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium mb-2 text-white">
+                        <label className="block text-sm font-medium mb-2 text-slate-700">
                           {t('contact.form.organization')} *
                         </label>
                         <input
@@ -143,14 +143,14 @@ export default function ContactPage() {
                           {t('contact.form.partnershiptype')} *
                         </label>
                         <Select required>
-                          <SelectTrigger className="w-full h-12 bg-[#1A1A1A] border-white/10 text-white">
+                          <SelectTrigger className="w-full h-12 bg-white border-slate-200 text-slate-800">
                             <SelectValue placeholder={t('contact.form.select')} />
                           </SelectTrigger>
-                          <SelectContent className="bg-[#1A1A1A] border border-white/10 z-50">
-                            <SelectItem value="school" className="text-white hover:bg-white/10">{t('contact.form.partnership.school')}</SelectItem>
-                            <SelectItem value="district" className="text-white hover:bg-white/10">{t('contact.form.partnership.district')}</SelectItem>
-                            <SelectItem value="enterprise" className="text-white hover:bg-white/10">{t('contact.form.partnership.enterprise')}</SelectItem>
-                            <SelectItem value="other" className="text-white hover:bg-white/10">{t('contact.form.partnership.other')}</SelectItem>
+                          <SelectContent className="bg-white border border-slate-200 z-50">
+                            <SelectItem value="school" className="text-slate-800 hover:bg-slate-50">{t('contact.form.partnership.school')}</SelectItem>
+                            <SelectItem value="district" className="text-slate-800 hover:bg-slate-50">{t('contact.form.partnership.district')}</SelectItem>
+                            <SelectItem value="enterprise" className="text-slate-800 hover:bg-slate-50">{t('contact.form.partnership.enterprise')}</SelectItem>
+                            <SelectItem value="other" className="text-slate-800 hover:bg-slate-50">{t('contact.form.partnership.other')}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -302,16 +302,16 @@ export default function ContactPage() {
               </Tabs>
             ) : (
               // Korean: Single button to open HappyTalk
-              <div className="bg-[#1A1A1A] rounded-xl p-8 border border-white/10 text-center">
+              <div className="bg-white rounded-xl p-8 border border-slate-200 text-center shadow-sm">
                 <div className="mb-6">
                   <MessageCircle className="w-16 h-16 text-accent mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2 text-white">
+                  <h3 className="text-xl font-bold mb-2 text-slate-800">
                     {t('contact.happytalk.title')}
                   </h3>
-                  <p className="text-white/60 mb-2">
+                  <p className="text-slate-500 mb-2">
                     {t('contact.happytalk.desc')}
                   </p>
-                  <ul className="text-sm text-white/50 space-y-1">
+                  <ul className="text-sm text-slate-400 space-y-1">
                     <li>• 아트봉봉 문의</li>
                     <li>• 아트봉봉 스쿨 문의</li>
                     <li>• 제휴 문의</li>
@@ -329,12 +329,12 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Office Info - 찾아오시는 길 */}
-        <section className="bg-[#111111] py-16 md:py-20">
+        {/* Office Info */}
+        <section className="bg-slate-50 border-t border-slate-200 py-16 md:py-20">
           <div className="container-corporate">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-white">
+                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-slate-800">
                   {t('contact.location.title')}
                 </h2>
                 <div className="space-y-6">
@@ -342,8 +342,8 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4">
                     <MapPin className="w-6 h-6 text-accent shrink-0 mt-1" />
                     <div>
-                      <p className="font-medium mb-1 text-white">{t('contact.location.address.label')}</p>
-                      <p className="text-white/60">
+                      <p className="font-medium mb-1 text-slate-800">{t('contact.location.address.label')}</p>
+                      <p className="text-slate-500">
                         {t('contact.location.address')}
                       </p>
                     </div>
@@ -352,8 +352,8 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4">
                     <Phone className="w-6 h-6 text-accent shrink-0 mt-1" />
                     <div>
-                      <p className="font-medium mb-1 text-white">{t('contact.location.phone.label')}</p>
-                      <a 
+                      <p className="font-medium mb-1 text-slate-800">{t('contact.location.phone.label')}</p>
+                      <a
                         href={language === 'ko' ? 'tel:1833-2477' : 'tel:+82-1833-2477'}
                         className="text-accent hover:text-accent/80 transition-colors"
                       >
@@ -365,9 +365,9 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4">
                     <Mail className="w-6 h-6 text-accent shrink-0 mt-1" />
                     <div>
-                      <p className="font-medium mb-1 text-white">{t('contact.location.email.label')}</p>
-                      <a 
-                        href="mailto:support@i-screamarts.com" 
+                      <p className="font-medium mb-1 text-slate-800">{t('contact.location.email.label')}</p>
+                      <a
+                        href="mailto:support@i-screamarts.com"
                         className="text-accent hover:text-accent/80 transition-colors"
                       >
                         support@i-screamarts.com
@@ -377,8 +377,8 @@ export default function ContactPage() {
                 </div>
               </div>
               {/* Google Map */}
-              <div className="aspect-video bg-[#1A1A1A] border border-white/10 rounded-xl overflow-hidden">
-                <iframe 
+              <div className="aspect-video bg-slate-200 border border-slate-200 rounded-xl overflow-hidden">
+                <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1584.7702778915043!2d127.10569845685683!3d37.40069632375865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca53953a05041%3A0x9fef1e712a5858aa!2z7JWE7J207Iqk7YGs66a87JWE7Yq4!5e0!3m2!1sko!2skr!4v1770184135954!5m2!1sko!2skr"
                   width="100%"
                   height="100%"

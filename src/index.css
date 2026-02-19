@@ -9,46 +9,56 @@
 
 :root {
   --font-size: 16px;
-  
-  /* i-Scream arts Corporate Design System - Dark Editorial Premium */
-  /* Rich black backgrounds + off-white text + orange accent */
-  --background: 0 0% 4%; /* #0A0A0A - Rich Black */
-  --foreground: 0 0% 96%; /* #F5F5F5 - Off-White */
-  
-  --card: 0 0% 10%; /* #1A1A1A - Dark Gray */
-  --card-foreground: 0 0% 96%;
-  
-  --popover: 0 0% 10%;
-  --popover-foreground: 0 0% 96%;
-  
-  --primary: 0 0% 96%; /* Off-white for buttons */
-  --primary-foreground: 0 0% 4%;
-  
-  --secondary: 0 0% 14%; /* #242424 */
-  --secondary-foreground: 0 0% 90%;
-  
-  --muted: 0 0% 14%; /* #242424 */
-  --muted-foreground: 0 0% 60%;
-  
-  --accent: 24 95% 53%; /* Orange #F47C2C */
+
+  /* i-Scream arts Corporate Design System - Warm Light Mode */
+  /* Off-white backgrounds + slate text + orange accent CI */
+  --background: 40 30% 98%;
+  /* #FAFAF8 - Warm off-white */
+  --foreground: 222 47% 11%;
+  /* #1E293B - Slate dark */
+
+  --card: 0 0% 100%;
+  /* #FFFFFF - Pure white cards */
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --primary: 24 95% 53%;
+  /* Orange - CI 오렌지를 primary로 */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 40% 96%;
+  /* #F1F5F9 - Light slate */
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 210 40% 96%;
+  /* #F1F5F9 */
+  --muted-foreground: 215 16% 47%;
+  /* #64748B - Slate mid */
+
+  --accent: 24 95% 53%;
+  /* Orange #F47C2C — CI 오렌지 유지 */
   --accent-foreground: 0 0% 100%;
-  
-  --info: 210 60% 50%; /* Muted blue for solution badges */
+
+  --info: 211 100% 60%;
+  /* Sky blue for solution badges */
   --info-foreground: 0 0% 100%;
-  
+
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
-  
-  --border: 0 0% 18%; /* Subtle light border */
-  --input: 0 0% 14%;
-  --input-background: 0 0% 10%;
-  --switch-background: 0 0% 18%;
+
+  --border: 214 32% 91%;
+  /* #E2E8F0 - Light slate border */
+  --input: 214 32% 91%;
+  --input-background: 0 0% 100%;
+  --switch-background: 214 32% 91%;
   --ring: 24 95% 53%;
-  
-  --radius: 0.5rem;
+
+  --radius: 0.75rem;
 }
 
-/* Dark mode class - same as root since we're dark-first */
+/* Dark mode class kept for reference but not applied by default */
 .dark {
   --background: 0 0% 4%;
   --foreground: 0 0% 96%;
@@ -97,7 +107,7 @@
   --color-input-background: hsl(var(--input-background));
   --color-switch-background: hsl(var(--switch-background));
   --color-ring: hsl(var(--ring));
-  
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -122,16 +132,16 @@
     max-width: 100vw;
     min-height: 100%;
   }
-  
+
   [lang="en"] body,
   body[data-lang="en"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
-  
+
   * {
     box-sizing: border-box;
   }
-  
+
   /* Typography - Enhanced hierarchy */
   h1 {
     @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
@@ -193,51 +203,34 @@
   @apply text-accent hover:text-accent/80 transition-colors duration-200;
 }
 
-/* Scroll Snap for Home (Desktop/Tablet only) */
-@media (min-width: 768px) {
-  .scroll-snap-container {
-    scroll-snap-type: y proximity;
-    overflow-y: auto;
-    height: 100vh;
-    overscroll-behavior-y: contain;
-    scroll-padding-top: 5rem;
-  }
-  
-  .scroll-snap-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    scroll-margin-top: 5rem;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-  
-  .scroll-snap-section:first-child {
-    padding-top: 8rem;
-  }
+/* Normal scroll — sections flow naturally (scroll-snap removed) */
+.scroll-snap-container {
+  /* plain block container — no snap */
 }
 
-/* Mobile: disable snap, normal scroll */
+.scroll-snap-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.scroll-snap-section:first-child {
+  padding-top: 5rem;
+  /* navbar offset handled by pt-28 inside hero */
+  padding-bottom: 0;
+}
+
 @media (max-width: 767px) {
-  .scroll-snap-container {
-    scroll-snap-type: none;
-    overflow-y: visible;
-    height: auto;
-  }
-  
   .scroll-snap-section {
-    scroll-snap-align: none;
-    scroll-margin-top: 5rem;
     min-height: auto;
-    height: auto;
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
-  
+
   .scroll-snap-section:first-child {
-    padding-top: 6rem;
+    padding-top: 5rem;
   }
 }
 
@@ -270,21 +263,20 @@
   transform: translateY(0);
 }
 
-/* Hero gradient background - dark theme */
+/* Hero gradient background - stays dark since video is behind */
 .hero-gradient-bg {
-  background: 
+  background:
     linear-gradient(135deg, hsl(0 0% 4%) 0%, hsl(0 0% 6%) 50%, hsl(0 0% 8%) 100%),
     radial-gradient(ellipse 120% 80% at 80% 20%, hsl(24 95% 53% / 0.05) 0%, transparent 50%),
     radial-gradient(ellipse 100% 100% at 20% 80%, hsl(0 0% 10% / 0.4) 0%, transparent 50%);
 }
 
-/* Hero warm gradient - dark variation */
+/* Hero warm gradient */
 .hero-gradient-warm {
-  background: linear-gradient(135deg, 
-    hsl(0 0% 6%) 0%, 
-    hsl(var(--background)) 50%, 
-    hsl(0 0% 8%) 100%
-  );
+  background: linear-gradient(135deg,
+      hsl(0 0% 6%) 0%,
+      hsl(0 0% 8%) 50%,
+      hsl(0 0% 10%) 100%);
 }
 
 /* Hero fade-in animation */
@@ -293,6 +285,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -305,6 +298,7 @@
     opacity: 0;
     transform: translateY(100%);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -317,6 +311,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -337,9 +332,7 @@
 
 /* Primary CTA button with shadow */
 .cta-primary {
-  @apply inline-flex items-center justify-center gap-2 bg-foreground text-background 
-         px-7 py-4 md:py-5 rounded-lg font-semibold 
-         hover:bg-foreground/90 transition-all duration-200;
+  @apply inline-flex items-center justify-center gap-2 bg-foreground text-background px-7 py-4 md:py-5 rounded-lg font-semibold hover:bg-foreground/90 transition-all duration-200;
   box-shadow: 0 4px 14px -3px hsl(var(--foreground) / 0.25);
 }
 
@@ -350,10 +343,7 @@
 
 /* Secondary CTA button with thicker border */
 .cta-secondary {
-  @apply inline-flex items-center justify-center gap-2 
-         border-2 border-border bg-background/50 backdrop-blur-sm 
-         text-foreground px-7 py-4 md:py-5 rounded-lg font-medium 
-         hover:bg-background/80 hover:border-foreground/30 transition-all duration-200;
+  @apply inline-flex items-center justify-center gap-2 border-2 border-border bg-background/50 backdrop-blur-sm text-foreground px-7 py-4 md:py-5 rounded-lg font-medium hover:bg-background/80 hover:border-foreground/30 transition-all duration-200;
 }
 
 /* Card hover effects - enhanced with scale and shadow */
@@ -363,8 +353,8 @@
 
 .card-hover:hover {
   border-color: hsl(var(--accent) / 0.3);
-  box-shadow: 0 16px 32px -8px hsl(var(--foreground) / 0.1), 
-              0 8px 16px -4px hsl(var(--foreground) / 0.06);
+  box-shadow: 0 16px 32px -8px hsl(var(--foreground) / 0.1),
+    0 8px 16px -4px hsl(var(--foreground) / 0.06);
   transform: translateY(-4px);
 }
 
@@ -384,25 +374,107 @@
   background: hsl(var(--accent));
 }
 
-/* Section-specific card backgrounds - Dark theme */
+/* Section-specific card backgrounds - Light theme */
 .card-values {
-  background: linear-gradient(135deg, hsl(0 0% 10%) 0%, hsl(0 0% 8%) 100%);
-  border: 1px solid hsl(0 0% 15%);
+  background: #ffffff;
+  border: 1px solid hsl(var(--border));
 }
 
 .card-services {
-  background: linear-gradient(135deg, hsl(0 0% 10%) 0%, hsl(0 0% 8%) 100%);
-  border: 1px solid hsl(0 0% 15%);
+  background: #ffffff;
+  border: 1px solid hsl(var(--border));
 }
 
 .card-products {
-  background: linear-gradient(135deg, hsl(0 0% 10%) 0%, hsl(0 0% 8%) 100%);
-  border: 1px solid hsl(0 0% 15%);
+  background: #ffffff;
+  border: 1px solid hsl(var(--border));
 }
 
 .card-resources {
-  background: linear-gradient(135deg, hsl(0 0% 10%) 0%, hsl(0 0% 8%) 100%);
-  border: 1px solid hsl(0 0% 15%);
+  background: #ffffff;
+  border: 1px solid hsl(var(--border));
+}
+
+/* ============================================
+   Gradient Blob / Morph Elements
+   Hero section - large morphing shapes
+   ============================================ */
+
+@keyframes blob-slow {
+
+  0%,
+  100% {
+    transform: translate(0px, 0px) scale(1);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  25% {
+    transform: translate(18px, -25px) scale(1.06);
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+
+  50% {
+    transform: translate(-10px, 15px) scale(0.97);
+    border-radius: 50% 60% 40% 70% / 40% 50% 60% 50%;
+  }
+
+  75% {
+    transform: translate(15px, 10px) scale(1.04);
+    border-radius: 70% 30% 50% 60% / 60% 40% 50% 40%;
+  }
+}
+
+@keyframes blob-medium {
+
+  0%,
+  100% {
+    transform: translate(0px, 0px) scale(1);
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  }
+
+  33% {
+    transform: translate(-20px, 12px) scale(1.04);
+    border-radius: 60% 40% 40% 60% / 30% 60% 40% 70%;
+  }
+
+  66% {
+    transform: translate(10px, -18px) scale(0.96);
+    border-radius: 50% 50% 60% 40% / 50% 40% 60% 50%;
+  }
+}
+
+@keyframes blob-fast {
+
+  0%,
+  100% {
+    transform: translate(0px, 0px) scale(1);
+    border-radius: 50% 50% 40% 60% / 50% 40% 60% 50%;
+  }
+
+  50% {
+    transform: translate(-12px, -12px) scale(1.07);
+    border-radius: 30% 70% 60% 40% / 60% 30% 70% 40%;
+  }
+}
+
+.blob-animate-slow {
+  animation: blob-slow 16s ease-in-out infinite;
+}
+
+.blob-animate-medium {
+  animation: blob-medium 11s ease-in-out infinite;
+}
+
+.blob-animate-fast {
+  animation: blob-fast 8s ease-in-out infinite;
+}
+
+.blob-animate-slow-delay {
+  animation: blob-slow 16s ease-in-out 5s infinite;
+}
+
+.blob-animate-medium-delay {
+  animation: blob-medium 11s ease-in-out 3s infinite;
 }
 
 /* Card title enhancement */
@@ -435,7 +507,7 @@
   }
 }
 
-.card-grid > * {
+.card-grid>* {
   display: flex;
   flex-direction: column;
 }
@@ -499,9 +571,12 @@
 
 /* Pulse glow animation for pinnacle card */
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 hsl(var(--accent) / 0.2);
   }
+
   50% {
     box-shadow: 0 0 20px 4px hsl(var(--accent) / 0.15);
   }
@@ -513,21 +588,24 @@
 
 /* Performance optimizations */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .scroll-snap-container {
     scroll-snap-type: none;
   }
-  
+
   .timeline-item {
     opacity: 1;
     transform: none;
   }
-  
+
   .animate-pulse-glow {
     animation: none;
   }
