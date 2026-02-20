@@ -60,537 +60,142 @@ function AnimatedCounter({
   </span>;
 }
 
-// ── Value Card Component (colorful tile design) ──────────────────────────
 const VALUE_COLORS = [
-  { bg: 'bg-orange-50', icon: 'bg-orange-100 text-orange-500', ring: 'ring-orange-200', accent: 'text-orange-600' },
-  { bg: 'bg-violet-50', icon: 'bg-violet-100 text-violet-500', ring: 'ring-violet-200', accent: 'text-violet-600' },
-  { bg: 'bg-rose-50', icon: 'bg-rose-100 text-rose-500', ring: 'ring-rose-200', accent: 'text-rose-600' },
-  { bg: 'bg-sky-50', icon: 'bg-sky-100 text-sky-500', ring: 'ring-sky-200', accent: 'text-sky-600' },
-  { bg: 'bg-teal-50', icon: 'bg-teal-100 text-teal-500', ring: 'ring-teal-200', accent: 'text-teal-600' },
-  { bg: 'bg-amber-50', icon: 'bg-amber-100 text-amber-500', ring: 'ring-amber-200', accent: 'text-amber-600' },
-  { bg: 'bg-emerald-50', icon: 'bg-emerald-100 text-emerald-500', ring: 'ring-emerald-200', accent: 'text-emerald-600' },
+  { bg: 'bg-orange-50', icon: 'bg-orange-100 text-orange-500', ring: 'ring-orange-200', text: 'text-orange-600' },
+  { bg: 'bg-violet-50', icon: 'bg-violet-100 text-violet-500', ring: 'ring-violet-200', text: 'text-violet-600' },
+  { bg: 'bg-rose-50', icon: 'bg-rose-100 text-rose-500', ring: 'ring-rose-200', text: 'text-rose-600' },
+  { bg: 'bg-sky-50', icon: 'bg-sky-100 text-sky-500', ring: 'ring-sky-200', text: 'text-sky-600' },
+  { bg: 'bg-teal-50', icon: 'bg-teal-100 text-teal-500', ring: 'ring-teal-200', text: 'text-teal-600' },
+  { bg: 'bg-amber-50', icon: 'bg-amber-100 text-amber-500', ring: 'ring-amber-200', text: 'text-amber-600' },
+  { bg: 'bg-emerald-50', icon: 'bg-emerald-100 text-emerald-500', ring: 'ring-emerald-200', text: 'text-emerald-600' },
 ];
 
-interface ValueTileProps {
-  value: { icon: React.ComponentType<{ className?: string }>; titleKey: string; descKey: string };
-  t: (key: string) => string;
-  colorIdx: number;
-  isPinnacle?: boolean;
-  delay?: number;
-}
-function ValueTile({ value, t, colorIdx, isPinnacle = false, delay = 0 }: ValueTileProps) {
-  const Icon = value.icon;
-  const c = VALUE_COLORS[colorIdx % VALUE_COLORS.length];
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`
-        relative group overflow-hidden
-        flex flex-col items-center justify-center text-center rounded-xl p-3 md:p-4
-        ${c.bg} ring-1 ${c.ring} min-h-[100px] md:min-h-[120px]
-        hover:shadow-lg hover:-translate-y-1 transition-all duration-300
-        ${isPinnacle ? 'ring-2 shadow-md' : ''}
-      `}
-    >
-      {isPinnacle && (
-        <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold bg-accent text-white shadow z-20`}>
-          ★ PINNACLE
-        </span>
-      )}
-
-      {/* Default State: Icon + Title */}
-      <div className="flex flex-col items-center transition-all duration-300 group-hover:opacity-0 group-hover:scale-95">
-        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-2 ${c.icon}`}>
-          <Icon className="w-5 h-5 md:w-6 md:h-6" />
-        </div>
-        <h3 className={`text-xs md:text-sm font-bold text-slate-800 leading-tight px-1`}>
-          {t(value.titleKey)}
-        </h3>
-      </div>
-
-      {/* Hover State: Description */}
-      <div className={`
-        absolute inset-0 p-3 flex flex-col items-center justify-center
-        opacity-0 group-hover:opacity-100 transition-all duration-300 scale-105 group-hover:scale-100
-        bg-white/95 backdrop-blur-sm z-10 pointer-events-none group-hover:pointer-events-auto
-      `}>
-        <p className="text-[10px] md:text-xs text-slate-600 leading-snug font-medium">
-          {t(value.descKey)}
-        </p>
-      </div>
-    </motion.div>
-  );
-}
-
-// ── Values Grid Layout: 4 base + 2 mid + 1 pinnacle ────────────────────
-interface ValuesGridProps {
-  coreValues: Array<{ icon: React.ComponentType<{ className?: string }>; titleKey: string; descKey: string }>;
-  t: (key: string) => string;
-}
-function ValuesGrid({ coreValues, t }: ValuesGridProps) {
-  return (
-    <div className="max-w-5xl mx-auto">
-      {/* Row 1: 4 base values */}
-      {/* Row 1: 4 base values */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-1 md:mb-2">
-        {[coreValues[0], coreValues[1], coreValues[2], coreValues[3]].map((val, i) => (
-          <ValueTile key={i} value={val} t={t} colorIdx={i} delay={i * 0.06} />
-        ))}
-      </div>
-
-      {/* Converging connector */}
-      <div className="hidden md:flex items-center justify-center gap-1 my-1">
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent to-accent/25" />
-        <ChevronUp className="w-4 h-4 text-accent/50" />
-        <div className="flex-1 h-px bg-gradient-to-l from-transparent to-accent/25" />
-      </div>
-
-      {/* Row 2: 2 mid values — centered */}
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3 mb-1 md:mb-2 md:max-w-xl md:mx-auto">
-        {[coreValues[4], coreValues[5]].map((val, i) => (
-          <ValueTile key={i} value={val} t={t} colorIdx={i + 4} delay={0.25 + i * 0.06} />
-        ))}
-      </div>
-
-      {/* Converging connector */}
-      <div className="hidden md:flex items-center justify-center gap-1 my-1">
-        <div className="w-48 h-px bg-gradient-to-r from-transparent to-accent/25" />
-        <ChevronUp className="w-4 h-4 text-accent/60" />
-        <div className="w-48 h-px bg-gradient-to-l from-transparent to-accent/25" />
-      </div>
-
-      {/* Row 3: Pinnacle — full width centered */}
-      <div className="md:max-w-md md:mx-auto">
-        <ValueTile value={coreValues[6]} t={t} colorIdx={6} isPinnacle delay={0.4} />
-      </div>
-    </div>
-  );
-}
-
-// Pyramid Value Card Component - Consistent heights for all languages
-interface PyramidValueCardProps {
-  value: {
-    icon: React.ComponentType<{
-      className?: string;
-    }>;
-    titleKey: string;
-    descKey: string;
-  };
-  t: (key: string) => string;
-  isPinnacle?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-}
-function PyramidValueCard({
-  value,
-  t,
-  isPinnacle,
-  size = 'md'
-}: PyramidValueCardProps) {
-  const Icon = value.icon;
-
-  // Size-based styling - simplified for compact initial view
-  const sizeStyles = {
-    sm: {
-      padding: 'p-4',
-      iconWrapper: 'w-10 h-10',
-      icon: 'w-5 h-5',
-      title: 'text-sm font-semibold',
-      desc: 'text-xs mt-2'
-    },
-    md: {
-      padding: 'p-5',
-      iconWrapper: 'w-12 h-12',
-      icon: 'w-6 h-6',
-      title: 'text-base font-semibold',
-      desc: 'text-sm mt-2'
-    },
-    lg: {
-      padding: 'p-6',
-      iconWrapper: 'w-14 h-14',
-      icon: 'w-7 h-7',
-      title: 'text-lg font-bold',
-      desc: 'text-sm mt-3'
-    }
-  };
-
-  const styles = sizeStyles[size];
+function CoreValuesFlow({ coreValues, t, language }: { coreValues: any[], t: (k: string) => string, language: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
-    <div className={`
-      relative group overflow-hidden
-      h-full w-full flex flex-col items-center justify-center text-center
-      bg-white rounded-xl shadow-sm hover:shadow-xl 
-      transition-all duration-300 hover:-translate-y-1 
-      border border-slate-100 
-      ${styles.padding}
-      ${isPinnacle ? 'border-accent/30 bg-gradient-to-br from-accent/5 to-white ring-2 ring-accent/15 animate-pulse-glow' : ''}
-    `}>
-      {/* Icon + Title Container - moves up slightly on hover */}
-      <div className="flex flex-col items-center transition-transform duration-300 group-hover:-translate-y-1">
-        {/* Icon */}
-        <div className={`
-          ${styles.iconWrapper} 
-          rounded-xl flex items-center justify-center mb-3
-          transition-colors duration-300
-          ${isPinnacle ? 'bg-accent/15 group-hover:bg-accent/20' : 'bg-accent/10 group-hover:bg-accent/15'}
-        `}>
-          <Icon className={`${styles.icon} text-accent`} />
-        </div>
-
-        {/* Title */}
-        <h3 className={`${styles.title} text-slate-800 leading-snug`}>
-          {t(value.titleKey)}
-        </h3>
+    <div ref={containerRef} className="relative max-w-5xl mx-auto px-4 py-8">
+      {/* Background Decorative Sparkles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 right-10 opacity-20"
+        >
+          <Sparkles className="w-24 h-24 text-orange-200" />
+        </motion.div>
+        <motion.div 
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-20 left-0 opacity-20"
+        >
+          <Sparkles className="w-32 h-32 text-sky-200" />
+        </motion.div>
       </div>
 
-      {/* Description Reveal - Absolute overlay or height expansion? 
-          Let's try max-height expansion for smoother layout flow if feasible, 
-          OR absolute overlay to prevent grid jitter. 
-          Given 'scroll snap', grid jitter is bad. 
-          Let's use absolute positioning for the description to appear OVER the card 
-          or just toggle visibility if we want to keep size fixed.
+      {/* Central Connector Line (Standard Version) */}
+      <div className="absolute left-[29px] md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-slate-100 md:-translate-x-1/2 rounded-full overflow-hidden">
+        <motion.div 
+          className="w-full h-full bg-gradient-to-b from-accent/20 via-accent to-accent/20 origin-top"
+          initial={{ scaleY: 0 }}
+          animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        />
+      </div>
+
+      <div className="space-y-12 md:space-y-20 relative z-10">
+        {coreValues.map((value, index) => {
+          const Icon = value.icon;
+          const c = VALUE_COLORS[index % VALUE_COLORS.length];
+          const isEven = index % 2 === 0;
           
-          Actually, let's keep the card fixed size (compact) and show description by expanding 
-          internal spacing or overlaying.
-          Best UX: The card grows slightly or we just use absolute positioning for the description 
-          if the card has enough space. 
-          
-          Let's try a clean absolute overlay that fades in.
-      */}
-      <div className={`
-        absolute inset-0 bg-white/95 backdrop-blur-sm z-10
-        flex flex-col items-center justify-center px-4 text-center
-        opacity-0 group-hover:opacity-100 transition-opacity duration-300
-        pointer-events-none group-hover:pointer-events-auto
-      `}>
-        <p className={`${styles.desc} text-slate-600 leading-relaxed font-medium`}>
-          {t(value.descKey)}
-        </p>
+          return (
+            <div key={index} className="relative group">
+              {/* Connector Dot */}
+              <motion.div 
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 + index * 0.1, type: "spring", stiffness: 200 }}
+                className={`absolute left-[29px] md:left-1/2 top-6 md:top-8 w-6 h-6 md:w-8 md:h-8 rounded-full border-4 border-white bg-accent shadow-md -translate-x-1/2 z-20 flex items-center justify-center`}
+              >
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-pulse" />
+              </motion.div>
+
+              {/* Node Card */}
+              <div className={`flex flex-col md:flex-row items-center w-full ${isEven ? 'md:flex-row-reverse' : ''}`}>
+                <div className="hidden md:block md:w-1/2" /> {/* Spacer */}
+                
+                <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pr-12' : 'md:pl-12'}`}>
+                  <motion.div
+                    initial={{ opacity: 0, x: isEven ? -40 : 40, y: 20 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className={`
+                      relative
+                      p-6 md:p-8 rounded-[2rem] bg-white border border-slate-100
+                      shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500
+                    `}
+                  >
+                    {/* Decorative Blob */}
+                    <div className={`absolute -top-3 -right-3 w-12 h-12 ${c.bg} rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                    
+                    <div className="relative flex flex-col items-start gap-4">
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${c.icon} shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
+                        <Icon className="w-7 h-7" />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <h3 className={`text-xl md:text-2xl font-bold text-slate-900 tracking-tight`}>
+                          {t(value.titleKey)}
+                        </h3>
+                        <p className="text-sm md:text-base text-slate-500 leading-relaxed font-medium [word-break:keep-all]">
+                          {t(value.descKey)}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Connector Chevron (Arrow pointing DOWN) */}
+              {index < coreValues.length - 1 && (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + index * 0.1 }}
+                  className="absolute left-[29px] md:left-1/2 bottom-[-45px] md:bottom-[-65px] -translate-x-1/2 text-accent/40"
+                >
+                  <ChevronDown className="w-8 h-8 md:w-10 md:h-10 animate-bounce duration-[2000ms]" />
+                </motion.div>
+              )}
+            </div>
+          );
+        })}
       </div>
+
+      {/* Goal Indicator at the bottom */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 1, duration: 0.8 }}
+        className="mt-20 md:mt-24 text-center relative z-10"
+      >
+        <div className="inline-flex flex-col items-center">
+          <div className="px-6 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent font-bold text-sm md:text-base mb-4">
+            {language === 'ko' ? '최종 목표' : 'Final Goal'}
+          </div>
+          <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-transparent via-accent to-transparent rounded-full" />
+        </div>
+      </motion.div>
     </div>
   );
 }
 
-// SVG Connecting Lines Component for pyramid visual flow
-interface ConnectingLinesProps {
-  isVisible: boolean;
-}
-function ConnectingLines({
-  isVisible
-}: ConnectingLinesProps) {
-  return <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <linearGradient id="line-gradient-up" x1="0%" y1="100%" x2="0%" y2="0%">
-        <stop offset="0%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.2" />
-        <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.5" />
-      </linearGradient>
-    </defs>
-
-    {/* Lines from Level 3 (base) to Level 2 */}
-    {/* Left side lines */}
-    <motion.path d="M 150 380 Q 150 320 250 280" stroke="url(#line-gradient-up)" strokeWidth="2" fill="none" strokeLinecap="round" initial={{
-      pathLength: 0,
-      opacity: 0
-    }} animate={isVisible ? {
-      pathLength: 1,
-      opacity: 1
-    } : {
-      pathLength: 0,
-      opacity: 0
-    }} transition={{
-      duration: 0.6,
-      delay: 0.3,
-      ease: "easeOut"
-    }} />
-    <motion.path d="M 300 380 Q 300 320 300 280" stroke="url(#line-gradient-up)" strokeWidth="2" fill="none" strokeLinecap="round" initial={{
-      pathLength: 0,
-      opacity: 0
-    }} animate={isVisible ? {
-      pathLength: 1,
-      opacity: 1
-    } : {
-      pathLength: 0,
-      opacity: 0
-    }} transition={{
-      duration: 0.6,
-      delay: 0.35,
-      ease: "easeOut"
-    }} />
-
-    {/* Right side lines */}
-    <motion.path d="M 500 380 Q 500 320 500 280" stroke="url(#line-gradient-up)" strokeWidth="2" fill="none" strokeLinecap="round" initial={{
-      pathLength: 0,
-      opacity: 0
-    }} animate={isVisible ? {
-      pathLength: 1,
-      opacity: 1
-    } : {
-      pathLength: 0,
-      opacity: 0
-    }} transition={{
-      duration: 0.6,
-      delay: 0.35,
-      ease: "easeOut"
-    }} />
-    <motion.path d="M 650 380 Q 650 320 550 280" stroke="url(#line-gradient-up)" strokeWidth="2" fill="none" strokeLinecap="round" initial={{
-      pathLength: 0,
-      opacity: 0
-    }} animate={isVisible ? {
-      pathLength: 1,
-      opacity: 1
-    } : {
-      pathLength: 0,
-      opacity: 0
-    }} transition={{
-      duration: 0.6,
-      delay: 0.3,
-      ease: "easeOut"
-    }} />
-
-    {/* Lines from Level 2 to Pinnacle */}
-    <motion.path d="M 280 220 Q 320 160 400 120" stroke="url(#line-gradient-up)" strokeWidth="2.5" fill="none" strokeLinecap="round" initial={{
-      pathLength: 0,
-      opacity: 0
-    }} animate={isVisible ? {
-      pathLength: 1,
-      opacity: 1
-    } : {
-      pathLength: 0,
-      opacity: 0
-    }} transition={{
-      duration: 0.5,
-      delay: 0.5,
-      ease: "easeOut"
-    }} />
-    <motion.path d="M 520 220 Q 480 160 400 120" stroke="url(#line-gradient-up)" strokeWidth="2.5" fill="none" strokeLinecap="round" initial={{
-      pathLength: 0,
-      opacity: 0
-    }} animate={isVisible ? {
-      pathLength: 1,
-      opacity: 1
-    } : {
-      pathLength: 0,
-      opacity: 0
-    }} transition={{
-      duration: 0.5,
-      delay: 0.5,
-      ease: "easeOut"
-    }} />
-  </svg>;
-}
-
-// Pyramid Layout with animated connecting lines
-interface PyramidWithLinesProps {
-  coreValues: Array<{
-    icon: React.ComponentType<{
-      className?: string;
-    }>;
-    titleKey: string;
-    descKey: string;
-  }>;
-  t: (key: string) => string;
-  language: string;
-}
-function PyramidWithLines({
-  coreValues,
-  t,
-  language
-}: PyramidWithLinesProps) {
-  const pyramidRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(pyramidRef, {
-    once: true,
-    margin: "-100px"
-  });
-  return <div ref={pyramidRef} className="relative max-w-5xl mx-auto px-4">
-    {/* Desktop/Tablet: Pyramid Grid Layout with SVG Lines */}
-    <div className="hidden md:block relative">
-      {/* SVG Connecting Lines - Behind cards */}
-      <div className="absolute inset-0 z-0">
-        <ConnectingLines isVisible={isInView} />
-      </div>
-
-      {/* Cards Grid */}
-      <div className="relative z-10 flex flex-col items-center gap-6">
-        {/* Level 1 - Pinnacle (Top): 숨은 재능∙적성 파악 */}
-        <motion.div className="w-full max-w-md" initial={{
-          opacity: 0,
-          y: -30,
-          scale: 0.95
-        }} whileInView={{
-          opacity: 1,
-          y: 0,
-          scale: 1
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.6,
-          delay: 0.6,
-          ease: [0.16, 1, 0.3, 1]
-        }}>
-          <PyramidValueCard value={coreValues[6]} t={t} isPinnacle size="lg" />
-        </motion.div>
-
-        {/* Converging arrow indicator */}
-        <motion.div className="flex items-center justify-center gap-2 text-accent/60" initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.4,
-          delay: 0.5
-        }}>
-          <div className="w-16 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-          <ChevronUp className="w-5 h-5" />
-          <div className="w-16 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-        </motion.div>
-
-        {/* Level 2 (2 cards): 글로벌 인재 발굴, 글로벌 소통 */}
-        <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
-          <motion.div initial={{
-            opacity: 0,
-            x: -30,
-            scale: 0.95
-          }} whileInView={{
-            opacity: 1,
-            x: 0,
-            scale: 1
-          }} viewport={{
-            once: true
-          }} transition={{
-            duration: 0.5,
-            delay: 0.4,
-            ease: [0.16, 1, 0.3, 1]
-          }}>
-            <PyramidValueCard value={coreValues[5]} t={t} size="md" />
-          </motion.div>
-          <motion.div initial={{
-            opacity: 0,
-            x: 30,
-            scale: 0.95
-          }} whileInView={{
-            opacity: 1,
-            x: 0,
-            scale: 1
-          }} viewport={{
-            once: true
-          }} transition={{
-            duration: 0.5,
-            delay: 0.4,
-            ease: [0.16, 1, 0.3, 1]
-          }}>
-            <PyramidValueCard value={coreValues[4]} t={t} size="md" />
-          </motion.div>
-        </div>
-
-        {/* Converging arrow indicator */}
-        <motion.div className="flex items-center justify-center gap-2 text-accent/60" initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.4,
-          delay: 0.3
-        }}>
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-          <ChevronUp className="w-5 h-5" />
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-        </motion.div>
-
-        {/* Level 3 (4 cards in 2x2 or 4 across): 마음 건강, 드로잉 스킬, 빅데이터, 창의력 */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-          {[coreValues[0], coreValues[1], coreValues[2], coreValues[3]].map((value, index) => <motion.div key={index} initial={{
-            opacity: 0,
-            y: 30,
-            scale: 0.95
-          }} whileInView={{
-            opacity: 1,
-            y: 0,
-            scale: 1
-          }} viewport={{
-            once: true
-          }} transition={{
-            duration: 0.5,
-            delay: 0.1 + index * 0.05,
-            ease: [0.16, 1, 0.3, 1]
-          }}>
-            <PyramidValueCard value={value} t={t} size="sm" />
-          </motion.div>)}
-        </div>
-      </div>
-    </div>
-
-    {/* Mobile: Vertical Stacked Layout with connectors */}
-    <div className="md:hidden flex flex-col gap-3">
-      {/* Pinnacle card first */}
-      <motion.div initial={{
-        opacity: 0,
-        y: 20,
-        scale: 0.95
-      }} whileInView={{
-        opacity: 1,
-        y: 0,
-        scale: 1
-      }} viewport={{
-        once: true
-      }} transition={{
-        duration: 0.5,
-        delay: 0
-      }}>
-        <PyramidValueCard value={coreValues[6]} t={t} isPinnacle size="md" />
-      </motion.div>
-
-      {/* Vertical connector */}
-      <motion.div className="flex flex-col items-center gap-1 py-1" initial={{
-        opacity: 0
-      }} whileInView={{
-        opacity: 1
-      }} viewport={{
-        once: true
-      }} transition={{
-        delay: 0.1
-      }}>
-        <div className="w-px h-4 bg-gradient-to-b from-accent/40 to-accent/10" />
-        <ChevronUp className="w-4 h-4 text-accent/40" />
-      </motion.div>
-
-      {/* All other cards with connectors */}
-      {[coreValues[5], coreValues[4], coreValues[2], coreValues[3], coreValues[1], coreValues[0]].map((value, index) => <div key={index}>
-        <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.4,
-          delay: 0.1 * (index + 1)
-        }}>
-          <PyramidValueCard value={value} t={t} size="sm" />
-        </motion.div>
-        {index < 5 && <motion.div className="flex flex-col items-center gap-1 py-1" initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} transition={{
-          delay: 0.1 * (index + 1)
-        }}>
-          <ChevronUp className="w-3 h-3 text-accent/30" />
-        </motion.div>}
-      </div>)}
-    </div>
-  </div>;
-}
 export default function HomePage() {
   const {
     t,
@@ -997,27 +602,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 2: 7 Core Values - Pyramid Layout */}
-      {/* Section 2: 7 Core Values - Pyramid Layout */}
-      <section className="scroll-snap-section section-divider bg-background py-8 md:py-12 relative overflow-hidden">
-        {/* Gradient Blobs */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-orange-200/30 blur-3xl blob-animate-slow pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-purple-200/25 blur-3xl blob-animate-medium pointer-events-none" />
+      {/* Section 2: 7 Core Values - Dynamic Flow Layout */}
+      <section className="scroll-snap-section section-divider bg-[#FAF8F4]/50 py-16 md:py-24 relative overflow-hidden">
+        {/* Decorative Blobs */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-orange-100/40 blur-[100px] rounded-full" />
+          <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-purple-100/30 blur-[100px] rounded-full" />
+        </div>
+
         <AnimatedSection className="w-full container-corporate relative z-10">
           {/* Section Title */}
-          <div className="text-center mb-10 md:mb-14 px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+          <div className="text-center mb-16 md:mb-24 px-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-block px-4 py-1.5 mb-6 rounded-full bg-accent/10 text-accent text-sm font-bold tracking-wider"
+            >
+              CORE VALUES
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight [word-break:keep-all]">
               {t('home.values.section.title')}
             </h2>
-            <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed [word-break:keep-all]">
               {language === 'ko'
                 ? '아이들에게 전달하고자 하는 7가지 핵심 가치, 최종 목표는 숨은 재능·적성 파악입니다'
                 : '7 core values we deliver to children — the pinnacle: identifying hidden talents & aptitudes'}
             </p>
           </div>
 
-          {/* 7 Core Values colorful grid */}
-          <ValuesGrid coreValues={coreValues} t={t} />
+          {/* 7 Core Values Dynamic Flow */}
+          <CoreValuesFlow coreValues={coreValues} t={t} language={language} />
         </AnimatedSection>
       </section>
 
