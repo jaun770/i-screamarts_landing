@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"C:\\\\Users\\\\iscreamarts\\\\Downloads\\\\i-screamart_landing\\\\public\\\\videos\\\\solutions\"\" 2>/dev/null || echo \"No videos directory found \")",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite build:*)"
+    ]
+  }
+}

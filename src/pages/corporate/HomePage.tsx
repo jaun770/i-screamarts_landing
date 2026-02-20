@@ -1,15 +1,14 @@
 import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { ArrowRight, ChevronDown, ChevronUp, ChevronRight, Sparkles, Globe, Heart, Palette, Brain, Users, Search, Brush, Image } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { ArrowRight, ChevronDown, ChevronUp, Sparkles, Globe, Heart, Palette, Brain, Users, Search, Brush, Image } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { SEO, OrganizationSchema } from '@/components/corporate/SEO';
 import { Footer } from '@/components/corporate/Footer';
-import { ImagePlaceholder } from '@/components/corporate/ImagePlaceholder';
+
 import { AnimatedSection, AnimatedTitle, AnimatedCard } from '@/components/corporate/AnimatedSection';
 import { getShuffledArtworks } from '@/utils/heroArtworks';
-import impactBgImage from '@/assets/impact-background.png';
-import heroChildrenImage from '@/assets/hero-children.jpg';
+
 
 // Animated Counter Component for Impact Section
 interface AnimatedCounterProps {
@@ -70,6 +69,42 @@ const VALUE_COLORS = [
   { bg: 'bg-emerald-50', icon: 'bg-emerald-100 text-emerald-500', ring: 'ring-emerald-200', text: 'text-emerald-600' },
 ];
 
+// Reusable Section Header for unified design tone across all sections
+function SectionHeader({ pill, title, subtitle, dark = false }: { pill: string; title: string; subtitle?: string; dark?: boolean }) {
+  return (
+    <div className="text-center mb-12 md:mb-16 px-6">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        className="inline-block px-4 py-1.5 mb-5 rounded-full bg-accent/10 text-accent text-sm font-bold tracking-wider uppercase"
+      >
+        {pill}
+      </motion.div>
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight [word-break:keep-all] ${dark ? 'text-white' : 'text-slate-900'}`}
+      >
+        {title}
+      </motion.h2>
+      {subtitle && (
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className={`text-base md:text-lg max-w-2xl mx-auto font-medium leading-relaxed [word-break:keep-all] ${dark ? 'text-white/70' : 'text-slate-500'}`}
+        >
+          {subtitle}
+        </motion.p>
+      )}
+    </div>
+  );
+}
+
 function CoreValuesFlow({ coreValues, t, language }: { coreValues: any[], t: (k: string) => string, language: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
@@ -104,93 +139,133 @@ function CoreValuesFlow({ coreValues, t, language }: { coreValues: any[], t: (k:
         />
       </div>
 
-      <div className="space-y-12 md:space-y-20 relative z-10">
+      <div className="relative z-10">
         {coreValues.map((value, index) => {
           const Icon = value.icon;
           const c = VALUE_COLORS[index % VALUE_COLORS.length];
           const isEven = index % 2 === 0;
-          
-          return (
-            <div key={index} className="relative group">
-              {/* Connector Dot */}
-              <motion.div 
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 + index * 0.1, type: "spring", stiffness: 200 }}
-                className={`absolute left-[29px] md:left-1/2 top-6 md:top-8 w-6 h-6 md:w-8 md:h-8 rounded-full border-4 border-white bg-accent shadow-md -translate-x-1/2 z-20 flex items-center justify-center`}
-              >
-                <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-pulse" />
-              </motion.div>
 
-              {/* Node Card */}
-              <div className={`flex flex-col md:flex-row items-center w-full ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                <div className="hidden md:block md:w-1/2" /> {/* Spacer */}
-                
-                <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pr-12' : 'md:pl-12'}`}>
-                  <motion.div
-                    initial={{ opacity: 0, x: isEven ? -40 : 40, y: 20 }}
-                    whileInView={{ opacity: 1, x: 0, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className={`
-                      relative
-                      p-6 md:p-8 rounded-[2rem] bg-white border border-slate-100
-                      shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500
-                    `}
-                  >
-                    {/* Decorative Blob */}
-                    <div className={`absolute -top-3 -right-3 w-12 h-12 ${c.bg} rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    
-                    <div className="relative flex flex-col items-start gap-4">
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${c.icon} shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
-                        <Icon className="w-7 h-7" />
+          return (
+            <div key={index}>
+              {/* Card row with consistent spacing */}
+              <div className="relative group pb-6 md:pb-10">
+                {/* Connector Dot — aligned to timeline line */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + index * 0.08, type: "spring", stiffness: 200 }}
+                  className="absolute left-[29px] md:left-1/2 top-8 md:top-10 w-6 h-6 md:w-8 md:h-8 rounded-full border-4 border-white bg-accent shadow-md -translate-x-1/2 z-20 flex items-center justify-center"
+                >
+                  <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-pulse" />
+                </motion.div>
+
+                {/* Node Card */}
+                <div className={`flex flex-col md:flex-row items-start w-full ${isEven ? 'md:flex-row-reverse' : ''}`}>
+                  <div className="hidden md:block md:w-1/2" /> {/* Spacer */}
+
+                  <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pr-12' : 'md:pl-12'}`}>
+                    <motion.div
+                      initial={{ opacity: 0, x: isEven ? -40 : 40, y: 20 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: 0.15 + index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                      className="relative p-6 md:p-8 rounded-[2rem] bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                    >
+                      {/* Decorative Blob */}
+                      <div className={`absolute -top-3 -right-3 w-12 h-12 ${c.bg} rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+
+                      <div className="relative flex flex-col items-start gap-4">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${c.icon} shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
+                          <Icon className="w-7 h-7" />
+                        </div>
+
+                        <div className="space-y-2">
+                          <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+                            {t(value.titleKey)}
+                          </h3>
+                          <p className="text-sm md:text-base text-slate-500 leading-relaxed font-medium [word-break:keep-all]">
+                            {t(value.descKey)}
+                          </p>
+                        </div>
                       </div>
-                      
-                      <div className="space-y-2">
-                        <h3 className={`text-xl md:text-2xl font-bold text-slate-900 tracking-tight`}>
-                          {t(value.titleKey)}
-                        </h3>
-                        <p className="text-sm md:text-base text-slate-500 leading-relaxed font-medium [word-break:keep-all]">
-                          {t(value.descKey)}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </div>
                 </div>
               </div>
 
-              {/* Connector Chevron (Arrow pointing DOWN) */}
+              {/* Connector Chevron — in document flow, not absolute */}
               {index < coreValues.length - 1 && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  className="absolute left-[29px] md:left-1/2 bottom-[-45px] md:bottom-[-65px] -translate-x-1/2 text-accent/40"
-                >
-                  <ChevronDown className="w-8 h-8 md:w-10 md:h-10 animate-bounce duration-[2000ms]" />
-                </motion.div>
+                <div className="flex justify-start md:justify-center -mt-2 mb-4 pl-[17px] md:pl-0">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + index * 0.08 }}
+                    className="text-accent/40"
+                  >
+                    <ChevronDown className="w-7 h-7 md:w-9 md:h-9 animate-bounce duration-[2000ms]" />
+                  </motion.div>
+                </div>
               )}
             </div>
           );
         })}
       </div>
 
-      {/* Goal Indicator at the bottom */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+      {/* Convergence Hub — all 7 values unite into the vision */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="mt-20 md:mt-24 text-center relative z-10"
+        transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
+        className="mt-16 md:mt-20 relative z-10 flex flex-col items-center"
       >
-        <div className="inline-flex flex-col items-center">
-          <div className="px-6 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent font-bold text-sm md:text-base mb-4">
-            {language === 'ko' ? '최종 목표' : 'Final Goal'}
-          </div>
-          <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-transparent via-accent to-transparent rounded-full" />
+        {/* Converging dashed lines from both sides */}
+        <div className="relative w-full max-w-sm md:max-w-md mx-auto mb-4">
+          <svg viewBox="0 0 400 50" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+            {/* Left converging lines */}
+            <motion.path d="M 50 2 Q 130 2 200 46" fill="none" stroke="hsl(24 95% 53% / 0.3)" strokeWidth="1.5" strokeDasharray="4 4"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.3 }} />
+            <motion.path d="M 90 2 Q 150 12 200 46" fill="none" stroke="hsl(24 95% 53% / 0.25)" strokeWidth="1.5" strokeDasharray="4 4"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.45 }} />
+            <motion.path d="M 130 2 Q 165 20 200 46" fill="none" stroke="hsl(24 95% 53% / 0.2)" strokeWidth="1.5" strokeDasharray="4 4"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.6 }} />
+            {/* Right converging lines (mirrored) */}
+            <motion.path d="M 350 2 Q 270 2 200 46" fill="none" stroke="hsl(24 95% 53% / 0.3)" strokeWidth="1.5" strokeDasharray="4 4"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.3 }} />
+            <motion.path d="M 310 2 Q 250 12 200 46" fill="none" stroke="hsl(24 95% 53% / 0.25)" strokeWidth="1.5" strokeDasharray="4 4"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.45 }} />
+            <motion.path d="M 270 2 Q 235 20 200 46" fill="none" stroke="hsl(24 95% 53% / 0.2)" strokeWidth="1.5" strokeDasharray="4 4"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.6 }} />
+            {/* Center vertical line from timeline */}
+            <motion.path d="M 200 0 L 200 46" fill="none" stroke="hsl(24 95% 53% / 0.4)" strokeWidth="2"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }} />
+          </svg>
         </div>
+
+        {/* Central convergence circle */}
+        <motion.div
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 1, type: "spring", stiffness: 150 }}
+          className="relative"
+        >
+          <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-accent/15 via-accent/10 to-orange-50
+                          border-2 border-accent/30 flex flex-col items-center justify-center
+                          shadow-lg shadow-accent/10">
+            <Heart className="w-6 h-6 md:w-7 md:h-7 text-accent mb-1" />
+            <span className="text-[10px] md:text-xs font-bold text-accent text-center leading-tight px-3 whitespace-pre-line">
+              {t('home.values.convergence.label')}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Caption below */}
+        <p className="mt-4 text-sm text-slate-400 font-medium text-center max-w-xs [word-break:keep-all]">
+          {t('home.values.convergence.caption')}
+        </p>
       </motion.div>
     </div>
   );
@@ -479,7 +554,7 @@ export default function HomePage() {
       {/* ─────────────────────────────────────────────────────────────
           Section 1: Hero — ClassDojo-style: centered copy + artwork stream
       ───────────────────────────────────────────────────────────── */}
-      <section className="scroll-snap-section relative overflow-hidden bg-[#FAF8F4] flex flex-col justify-start pt-0 pb-0 min-h-screen">
+      <section className="scroll-snap-section relative overflow-hidden bg-[#FAF8F4] flex flex-col pt-0 pb-0 min-h-screen">
 
         {/* ── Blob layer ── */}
         <div className="absolute inset-0 pointer-events-none">
@@ -491,8 +566,11 @@ export default function HomePage() {
           <div className="absolute top-1/3 right-10 w-[320px] h-[320px] bg-amber-300/60 blur-[65px] blob-animate-slow" />
         </div>
 
+        {/* ── Top spacer: reserves header space & shares remaining room with bottom spacer ── */}
+        <div className="flex-1 min-h-[4.5rem]" />
+
         {/* ── Centered copy ── */}
-        <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-8 pt-20 md:pt-24 pb-4">
+        <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-8 pb-4">
 
           {/* Eyebrow pill */}
           <motion.div
@@ -548,8 +626,11 @@ export default function HomePage() {
           </motion.div>
         </div>
 
+        {/* ── Bottom spacer: matches top spacer to keep copy visually centered ── */}
+        <div className="flex-1 min-h-6" />
+
         {/* ── Student Artwork Stream ── */}
-        <div className="relative z-10 w-full min-w-0 mt-auto overflow-hidden pb-0">
+        <div className="relative z-10 w-full min-w-0 overflow-hidden pb-0">
           {/* Gallery label */}
           <motion.p
             initial={{ opacity: 0 }}
@@ -611,25 +692,13 @@ export default function HomePage() {
         </div>
 
         <AnimatedSection className="w-full container-corporate relative z-10">
-          {/* Section Title */}
-          <div className="text-center mb-16 md:mb-24 px-6">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-block px-4 py-1.5 mb-6 rounded-full bg-accent/10 text-accent text-sm font-bold tracking-wider"
-            >
-              CORE VALUES
-            </motion.div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight [word-break:keep-all]">
-              {t('home.values.section.title')}
-            </h2>
-            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed [word-break:keep-all]">
-              {language === 'ko'
-                ? '아이들에게 전달하고자 하는 7가지 핵심 가치, 최종 목표는 숨은 재능·적성 파악입니다'
-                : '7 core values we deliver to children — the pinnacle: identifying hidden talents & aptitudes'}
-            </p>
-          </div>
+          <SectionHeader
+            pill="CORE VALUES"
+            title={t('home.values.section.title')}
+            subtitle={language === 'ko'
+              ? '아이스크림아트의 모든 제품과 서비스는 이 7가지 가치에서 시작됩니다'
+              : 'Every product and service from i-Scream arts begins with these 7 values'}
+          />
 
           {/* 7 Core Values Dynamic Flow */}
           <CoreValuesFlow coreValues={coreValues} t={t} language={language} />
@@ -637,147 +706,122 @@ export default function HomePage() {
       </section>
 
       {/* ────────────────────────────────────────────────────────────────
-          Sections 3a–3b: Our Solutions — 2 solutions per fullscreen section
+          Section 3: Our Solutions — Single section, 2×2 card grid
       ──────────────────────────────────────────────────────────────── */}
-      {
-        [[0, 1], [2, 3]].map((pair, sectionIdx) => {
-          const sectionBg = sectionIdx === 0 ? 'bg-background' : 'bg-slate-50/70';
-          const accentColorsList = [
-            { pill: 'bg-orange-50 text-orange-600 ring-orange-200', icon: 'bg-orange-100 text-orange-500', num: 'text-orange-500', bar: 'bg-orange-400' },
-            { pill: 'bg-violet-50 text-violet-600 ring-violet-200', icon: 'bg-violet-100 text-violet-500', num: 'text-violet-500', bar: 'bg-violet-400' },
-            { pill: 'bg-sky-50 text-sky-600 ring-sky-200', icon: 'bg-sky-100 text-sky-500', num: 'text-sky-500', bar: 'bg-sky-400' },
-            { pill: 'bg-rose-50 text-rose-600 ring-rose-200', icon: 'bg-rose-100 text-rose-500', num: 'text-rose-500', bar: 'bg-rose-400' },
-          ];
-          const videoSlugs = ['creative', 'gallery', 'ai', 'care'];
+      {(() => {
+        const accentColorsList = [
+          { pill: 'bg-orange-50 text-orange-600 ring-orange-200', icon: 'bg-orange-100 text-orange-500' },
+          { pill: 'bg-violet-50 text-violet-600 ring-violet-200', icon: 'bg-violet-100 text-violet-500' },
+          { pill: 'bg-sky-50 text-sky-600 ring-sky-200', icon: 'bg-sky-100 text-sky-500' },
+          { pill: 'bg-rose-50 text-rose-600 ring-rose-200', icon: 'bg-rose-100 text-rose-500' },
+        ];
+        const videoSlugs = ['creative', 'gallery', 'ai', 'care'];
 
-          return (
-            <section
-              key={sectionIdx}
-              className={`scroll-snap-section section-divider relative overflow-hidden ${sectionBg}`}
-            >
-              <div className="container-corporate w-full flex flex-col justify-center py-16 md:py-20 px-6 md:px-8 lg:px-12">
+        return (
+          <section className="scroll-snap-section section-divider bg-[#FAF8F4] relative overflow-hidden">
+            {/* Decorative blobs */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-orange-100/30 blur-[100px] rounded-full" />
+              <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-violet-100/20 blur-[100px] rounded-full" />
+            </div>
 
-                {/* Section eyebrow — only on first section */}
-                {sectionIdx === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-10 md:mb-12"
-                  >
-                    <p className="text-xs font-semibold tracking-widest text-accent/70 uppercase mb-3">
-                      {t('home.solution.section.title')}
-                    </p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
-                      {language === 'ko' ? '아이스크림아트의 4가지 솔루션' : '4 Core Solutions'}
-                    </h2>
-                  </motion.div>
-                )}
+            <div className="container-corporate w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-8 lg:px-12 relative z-10">
+              <SectionHeader
+                pill={t('home.solution.section.title')}
+                title={language === 'ko' ? '아이스크림아트의 4가지 솔루션' : '4 Core Solutions'}
+                subtitle={t('home.solution.section.subtitle')}
+              />
 
-                {/* Two solution cards */}
-                <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-                  {pair.map((solIdx) => {
-                    const solution = solutions[solIdx];
-                    const Icon = solution.icon;
-                    const tags = language === 'ko' ? solution.tags : solution.tagsEn;
-                    const accent = accentColorsList[solIdx];
-                    const videoSrc = `/videos/solutions/solution-${solIdx + 1}-${videoSlugs[solIdx]}`;
+              <div className="grid md:grid-cols-2 gap-5 lg:gap-6 max-w-6xl mx-auto">
+                {solutions.map((solution, solIdx) => {
+                  const Icon = solution.icon;
+                  const tags = language === 'ko' ? solution.tags : solution.tagsEn;
+                  const accent = accentColorsList[solIdx];
+                  const videoSrc = `/videos/solutions/solution-${solIdx + 1}-${videoSlugs[solIdx]}`;
 
-                    return (
-                      <motion.div
-                        key={solution.titleKey}
-                        initial={{ opacity: 0, y: 28 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.65, delay: (solIdx % 2) * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col gap-5"
-                      >
-                        {/* 16:9 Video */}
-                        <div className="relative rounded-2xl overflow-hidden shadow-xl shadow-slate-200/50 ring-1 ring-slate-200 aspect-video bg-slate-100">
-                          <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                            <source src={`${videoSrc}.webm`} type="video/webm" />
-                            <source src={`${videoSrc}.mp4`} type="video/mp4" />
-                          </video>
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
-                          {/* Number badge on video */}
-                          <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold text-white backdrop-blur-sm bg-black/30`}>
-                            0{solIdx + 1} / 04
-                          </div>
+                  return (
+                    <motion.div
+                      key={solution.titleKey}
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.15 }}
+                      transition={{ duration: 0.6, delay: solIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                      className="bg-white rounded-2xl border border-slate-100 shadow-sm
+                                 hover:shadow-xl hover:-translate-y-1 transition-all duration-400
+                                 overflow-hidden flex flex-col"
+                    >
+                      {/* Video — reduced from 16:9 to 16:10 */}
+                      <div className="relative overflow-hidden aspect-[16/10] bg-slate-100">
+                        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                          <source src={`${videoSrc}.webm`} type="video/webm" />
+                          <source src={`${videoSrc}.mp4`} type="video/mp4" />
+                        </video>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold text-white backdrop-blur-sm bg-black/30">
+                          0{solIdx + 1}
                         </div>
+                      </div>
 
-                        {/* Text content */}
-                        <div className="flex flex-col gap-3 px-1">
-                          {/* Icon + Title row */}
-                          <div className="flex items-center gap-3">
-                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${accent.icon}`}>
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <h3 className="text-xl md:text-2xl font-bold text-slate-900 leading-snug [word-break:keep-all]">
-                              {t(solution.titleKey)}
-                            </h3>
+                      {/* Text content — more room inside card */}
+                      <div className="flex flex-col gap-3 p-5 md:p-6">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${accent.icon}`}>
+                            <Icon className="w-5 h-5" />
                           </div>
-
-                          {/* Description */}
-                          <p className="text-sm md:text-base text-slate-600 leading-relaxed [word-break:keep-all]">
-                            {t(solution.descKey)}
-                          </p>
-
-                          {/* Tags */}
-                          <div className="flex flex-wrap gap-1.5">
-                            {tags.map((tag, ti) => (
-                              <span
-                                key={ti}
-                                className={`text-xs font-semibold px-3 py-1 rounded-full ring-1 ${accent.pill}`}
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
+                          <h3 className="text-lg md:text-xl font-bold text-slate-900 leading-snug [word-break:keep-all]">
+                            {t(solution.titleKey)}
+                          </h3>
                         </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                        <p className="text-sm md:text-base text-slate-600 leading-relaxed [word-break:keep-all]">
+                          {t(solution.descKey)}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          {tags.map((tag, ti) => (
+                            <span
+                              key={ti}
+                              className={`text-xs font-semibold px-3 py-1 rounded-full ring-1 ${accent.pill}`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
-            </section>
-          );
-        })
-      }
+            </div>
+          </section>
+        );
+      })()}
 
 
 
-      {/* Section 4: Impact by Numbers */}
-      <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 relative overflow-hidden">
-        {/* Background Image with Dimmed Overlay */}
-        <div className="absolute inset-0">
-          <img
-            src={impactBgImage}
-            alt=""
-            className="w-full h-full object-cover"
-          />
-          {/* Dark Overlay — strong enough for text legibility */}
-          <div className="absolute inset-0 bg-black/93" />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/60" />
+      {/* Section 4: Impact by Numbers — warm light tone */}
+      <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 bg-background relative overflow-hidden">
+        {/* Decorative blobs for visual continuity */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-20 -right-20 w-[500px] h-[500px] bg-orange-200/30 blur-[100px] rounded-full" />
+          <div className="absolute bottom-0 -left-32 w-[450px] h-[450px] bg-rose-100/25 blur-[100px] rounded-full" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-sky-100/20 blur-[100px] rounded-full" />
         </div>
 
         <AnimatedSection className="container-corporate w-full relative z-10">
-          <div className="text-center mb-12 md:mb-16">
-            <AnimatedTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
-              {t('home.impact.section.title')}
-            </AnimatedTitle>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <SectionHeader
+            pill="IMPACT"
+            title={t('home.impact.section.title')}
+          />
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-3xl mx-auto">
             {/* Drawing Data Card */}
             <AnimatedCard index={0}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 text-center card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 md:p-10 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
                 <p className="text-5xl md:text-6xl font-bold text-accent mb-3">
                   <AnimatedCounter target={1000000} suffix="+" duration={2.5} isMillions={true} language={language} />
                 </p>
-                <p className="text-lg font-semibold text-white mb-2">
+                <p className="text-lg font-semibold text-slate-900 mb-2">
                   {t('home.impact.drawings.label')}
                 </p>
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-slate-500">
                   {t('home.impact.drawings.sub')}
                 </p>
               </div>
@@ -785,14 +829,14 @@ export default function HomePage() {
 
             {/* Patents Card */}
             <AnimatedCard index={1}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 text-center card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 md:p-10 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
                 <p className="text-5xl md:text-6xl font-bold text-accent mb-3">
                   <AnimatedCounter target={100} suffix="+" duration={2} isMillions={false} language={language} />
                 </p>
-                <p className="text-lg font-semibold text-white mb-2">
+                <p className="text-lg font-semibold text-slate-900 mb-2">
                   {t('home.impact.patents.label')}
                 </p>
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-slate-500">
                   {t('home.impact.patents.sub')}
                 </p>
               </div>
@@ -807,15 +851,14 @@ export default function HomePage() {
         <div className="absolute top-1/4 -right-20 w-80 h-80 rounded-full bg-orange-200/25 blur-3xl blob-animate-slow pointer-events-none" />
         <div className="absolute bottom-1/4 -left-16 w-64 h-64 rounded-full bg-rose-200/20 blur-3xl blob-animate-medium pointer-events-none" />
         <AnimatedSection className="container-corporate w-full relative z-10">
-          <div className="text-center mb-12 md:mb-16">
-            <AnimatedTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
-              {t('home.history.title')}
-            </AnimatedTitle>
-          </div>
+          <SectionHeader
+            pill="HISTORY"
+            title={t('home.history.title')}
+          />
 
           <div className="max-w-4xl mx-auto relative">
-            {/* Vertical line - orange */}
-            <motion.div className="absolute left-4 md:left-8 top-0 bottom-0 w-1 bg-accent/40 rounded-full origin-top" initial={{
+            {/* Vertical line - orange, centered on dot axis */}
+            <motion.div className="absolute left-4 md:left-8 -translate-x-1/2 top-0 bottom-0 w-1 bg-accent/40 rounded-full origin-top" initial={{
               scaleY: 0
             }} whileInView={{
               scaleY: 1
@@ -910,7 +953,7 @@ export default function HomePage() {
 
 
       {/* Unified Footer inside scroll container */}
-      <div className="scroll-snap-section snap-auto">
+      <div className="scroll-snap-section snap-auto !block">
         <Footer variant="inline" />
       </div>
     </div>

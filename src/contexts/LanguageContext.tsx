@@ -82,7 +82,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.metadata.desc': '그림에서 심리 메타데이터를 추출하는 기술',
 
     // Home - 7 Core Values Section
-    'home.values.section.title': '7대 가치',
+    'home.values.section.title': '아이스크림아트가 세상에 약속하는 것들',
     'home.values.1.title': '창의력∙상상력 극대화',
     'home.values.1.desc': '창의성을 발휘할 수 있는 디지털 종합예술 플랫폼',
     'home.values.5.title': '그림-심리 빅데이터',
@@ -97,9 +97,12 @@ const translations: Record<Language, Record<string, string>> = {
     'home.values.3.desc': '세계 곳곳의 재능 발현 및 글로벌 아티스트의 탄생',
     'home.values.7.title': '숨은 재능∙적성 파악',
     'home.values.7.desc': '작품∙데이터 학습으로 숨은 재능, 적성, 진로 탐색',
+    'home.values.convergence.label': '어린이 행복 네트워크',
+    'home.values.convergence.caption': '7가지 가치가 하나로 모여 어린이 행복 네트워크를 만듭니다',
 
     // Home - Our Solutions Section
     'home.solution.section.title': '우리의 솔루션',
+    'home.solution.section.subtitle': '아트봉봉의 핵심 솔루션을 확인하세요',
     'home.solution.creative.title': '창작 플랫폼',
     'home.solution.creative.desc': '수채화, 유화 등 전문가 수준의 디지털 드로잉 도구로 어린이들이 언제 어디서나 창의적으로 작품을 만들고 표현할 수 있습니다.',
     'home.solution.gallery.title': '글로벌 디지털 갤러리',
@@ -403,7 +406,7 @@ const translations: Record<Language, Record<string, string>> = {
     // (Solution keys moved to new sections)
 
     // Home - 7 Core Values Section
-    'home.values.section.title': '7 Core Values',
+    'home.values.section.title': 'Our Promise to the World',
     'home.values.1.title': 'Boosting Creativity & Imagination',
     'home.values.1.desc': 'Comprehensive digital art platform that maximizes creative potential',
     'home.values.5.title': 'Art-Psychology Big Data Analytics',
@@ -418,9 +421,12 @@ const translations: Record<Language, Record<string, string>> = {
     'home.values.3.desc': 'Discovering talent worldwide and nurturing global artists',
     'home.values.7.title': 'Identification of Hidden Talents & Aptitudes',
     'home.values.7.desc': 'Discovering hidden talents, aptitudes, and career paths through artwork and data',
+    'home.values.convergence.label': "Children's Happiness Network",
+    'home.values.convergence.caption': 'All 7 values converge to create a happiness network for children',
 
     // Home - Our Solutions Section
     'home.solution.section.title': 'Our Solutions',
+    'home.solution.section.subtitle': 'Discover the core solutions of ART BONBON',
     'home.solution.creative.title': 'Creative Platform',
     'home.solution.creative.desc': 'Creative platform providing professional-level digital drawing tools including watercolor and oil painting',
     'home.solution.gallery.title': 'Global Digital Gallery',
