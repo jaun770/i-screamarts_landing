@@ -7,7 +7,8 @@ import { SEO, OrganizationSchema } from '@/components/corporate/SEO';
 import { Footer } from '@/components/corporate/Footer';
 
 import { AnimatedSection, AnimatedTitle, AnimatedCard } from '@/components/corporate/AnimatedSection';
-import { getShuffledArtworks } from '@/utils/heroArtworks';
+import { SmileArc } from '@/components/corporate/SmileArc';
+import { FloatingBlobs } from '@/components/corporate/FloatingBlobs';
 
 
 // Animated Counter Component for Impact Section
@@ -537,37 +538,18 @@ export default function HomePage() {
   };
   const historyYears = Object.keys(historyData).sort((a, b) => Number(b) - Number(a));
   const displayedYears = showAllHistory ? historyYears : historyYears.slice(0, 3);
-  // Load and shuffle hero artworks on mount
-  const [heroArtworks, setHeroArtworks] = useState<string[]>([]);
-
-  useEffect(() => {
-    // Get 30 random artworks from the pool of 51+ images for richer loop variety
-    const shuffled = getShuffledArtworks(30);
-    setHeroArtworks(shuffled);
-  }, []);
-
   return (
     <div className="w-full overflow-hidden relative">
       <SEO />
       <OrganizationSchema />
 
+      {/* Page-level floating blobs (parallax, behind all content) */}
+      <FloatingBlobs />
+
       {/* ─────────────────────────────────────────────────────────────
-          Section 1: Hero — ClassDojo-style: centered copy + artwork stream
+          Section 1: Hero — centered copy + two-row smile arc
       ───────────────────────────────────────────────────────────── */}
-      <section className="scroll-snap-section relative overflow-hidden bg-[#FAF8F4] flex flex-col pt-0 pb-0 min-h-screen">
-
-        {/* ── Blob layer ── */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-32 -left-32 w-[600px] h-[600px] bg-orange-300/75 blur-[80px] blob-animate-slow" />
-          <div className="absolute -top-20 right-0 w-[520px] h-[520px] bg-rose-300/65 blur-[75px] blob-animate-medium" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[480px] h-[480px] bg-sky-300/55 blur-[75px] blob-animate-slow-delay" />
-          <div className="absolute bottom-0 -left-20 w-[460px] h-[460px] bg-teal-300/60 blur-[75px] blob-animate-medium-delay" />
-          <div className="absolute -bottom-20 right-1/4 w-[400px] h-[400px] bg-violet-300/50 blur-[65px] blob-animate-fast" />
-          <div className="absolute top-1/3 right-10 w-[320px] h-[320px] bg-amber-300/60 blur-[65px] blob-animate-slow" />
-        </div>
-
-        {/* ── Top spacer: reserves header space & shares remaining room with bottom spacer ── */}
-        <div className="flex-1 min-h-[4.5rem]" />
+      <section className="relative z-10 overflow-x-hidden pt-24 md:pt-28 pb-0">
 
         {/* ── Centered copy ── */}
         <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-8 pb-4">
@@ -626,72 +608,25 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        {/* ── Bottom spacer: matches top spacer to keep copy visually centered ── */}
-        <div className="flex-1 min-h-6" />
-
-        {/* ── Student Artwork Stream ── */}
-        <div className="relative z-10 w-full min-w-0 overflow-hidden pb-0">
-          {/* Gallery label */}
+        {/* ── Smile Arc — artwork showcase ── */}
+        <div className="relative z-10 w-full" style={{ marginTop: '28px' }}>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.4 }}
-            className="text-center text-xs font-semibold text-slate-400 tracking-widest uppercase mb-4"
+            className="text-center text-xs font-semibold text-slate-400 tracking-widest uppercase mb-1"
           >
             {language === 'ko' ? '아이들이 만든 작품들' : 'Created by our young artists'}
           </motion.p>
-
-          {/* Infinite scrolling strip with wavy curve */}
-          <div className="artwork-strip relative w-full overflow-hidden py-6" style={{ contain: 'paint' }}>
-            <div className="artwork-track px-4">
-              {[...heroArtworks, ...heroArtworks].map((src, i) => {
-                // Wave offset: sine curve gives each card a different Y position
-                const waveOffset = Math.sin((i % heroArtworks.length) * 0.72) * 20; // px, ±20px amplitude
-                // Height pattern cycles through 5 sizes - Scaled down for laptop fit
-                const heights = [140, 115, 165, 130, 155];
-                const h = heights[i % heights.length];
-
-                return (
-                  <div
-                    key={`stream-${i}`}
-                    className="group artwork-card-inner relative flex-shrink-0 mx-2 hover:z-50"
-                    style={{
-                      transform: `translateY(${waveOffset}px)`,
-                      // Bouncy float animation: varies duration (3s-4.5s) and delay per item
-                      animation: `float-bob ${3 + (i % 4) * 0.5}s ease-in-out infinite`,
-                      animationDelay: `-${i * 0.7}s`
-                    }}
-                  >
-                    <div
-                      className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-white/70 transition-all duration-400 group-hover:shadow-2xl group-hover:scale-[1.2] group-hover:ring-4 group-hover:ring-accent/40 group-hover:-translate-y-4"
-                      style={{ width: 140, height: h }}
-                    >
-                      <img
-                        src={src}
-                        alt={language === 'ko' ? `학생 작품` : `Student artwork`}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                        draggable={false}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          <div style={{ marginTop: '-58px' }}>
+            <SmileArc language={language} />
           </div>
         </div>
       </section>
 
       {/* Section 2: 7 Core Values - Dynamic Flow Layout */}
-      <section className="scroll-snap-section section-divider bg-[#FAF8F4]/50 py-16 md:py-24 relative overflow-hidden">
-        {/* Decorative Blobs */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-orange-100/40 blur-[100px] rounded-full" />
-          <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-purple-100/30 blur-[100px] rounded-full" />
-        </div>
-
-        <AnimatedSection className="w-full container-corporate relative z-10">
+      <section className="relative z-10 py-16 md:py-24 overflow-hidden">
+        <AnimatedSection className="w-full container-corporate relative">
           <SectionHeader
             pill="CORE VALUES"
             title={t('home.values.section.title')}
@@ -718,14 +653,8 @@ export default function HomePage() {
         const videoSlugs = ['creative', 'gallery', 'ai', 'care'];
 
         return (
-          <section className="scroll-snap-section section-divider bg-[#FAF8F4] relative overflow-hidden">
-            {/* Decorative blobs */}
-            <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-orange-100/30 blur-[100px] rounded-full" />
-              <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-violet-100/20 blur-[100px] rounded-full" />
-            </div>
-
-            <div className="container-corporate w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-8 lg:px-12 relative z-10">
+          <section className="relative z-10 overflow-hidden">
+            <div className="container-corporate w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-8 lg:px-12 relative">
               <SectionHeader
                 pill={t('home.solution.section.title')}
                 title={language === 'ko' ? '아이스크림아트의 4가지 솔루션' : '4 Core Solutions'}
@@ -797,16 +726,9 @@ export default function HomePage() {
 
 
 
-      {/* Section 4: Impact by Numbers — warm light tone */}
-      <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 bg-background relative overflow-hidden">
-        {/* Decorative blobs for visual continuity */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-20 -right-20 w-[500px] h-[500px] bg-orange-200/30 blur-[100px] rounded-full" />
-          <div className="absolute bottom-0 -left-32 w-[450px] h-[450px] bg-rose-100/25 blur-[100px] rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-sky-100/20 blur-[100px] rounded-full" />
-        </div>
-
-        <AnimatedSection className="container-corporate w-full relative z-10">
+      {/* Section 4: Impact by Numbers */}
+      <section className="relative z-10 px-6 md:px-8 lg:px-12 overflow-hidden">
+        <AnimatedSection className="container-corporate w-full relative">
           <SectionHeader
             pill="IMPACT"
             title={t('home.impact.section.title')}
@@ -846,11 +768,8 @@ export default function HomePage() {
       </section>
 
       {/* Section 6: Company History */}
-      <section className="scroll-snap-section section-divider px-6 md:px-8 lg:px-12 bg-background relative overflow-hidden">
-        {/* Gradient Blobs */}
-        <div className="absolute top-1/4 -right-20 w-80 h-80 rounded-full bg-orange-200/25 blur-3xl blob-animate-slow pointer-events-none" />
-        <div className="absolute bottom-1/4 -left-16 w-64 h-64 rounded-full bg-rose-200/20 blur-3xl blob-animate-medium pointer-events-none" />
-        <AnimatedSection className="container-corporate w-full relative z-10">
+      <section className="relative z-10 px-6 md:px-8 lg:px-12 overflow-hidden">
+        <AnimatedSection className="container-corporate w-full relative">
           <SectionHeader
             pill="HISTORY"
             title={t('home.history.title')}
@@ -952,10 +871,8 @@ export default function HomePage() {
       </section>
 
 
-      {/* Unified Footer inside scroll container */}
-      <div className="scroll-snap-section snap-auto !block">
-        <Footer variant="inline" />
-      </div>
+      {/* Footer */}
+      <Footer variant="inline" />
     </div>
   );
 }

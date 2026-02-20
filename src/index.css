@@ -207,74 +207,32 @@
   @apply text-accent hover:text-accent/80 transition-colors duration-200;
 }
 
-/* Scroll Snap - Responsive Implementation */
-/* Mobile/Tablet (<1024px): Natural scrolling (disabled) to prevent content clipping */
-.scroll-snap-container {
-  /* plain block container */
-}
-
+/* Section layout (scroll snap removed — natural scrolling) */
 .scroll-snap-section {
-  min-height: auto;
-  /* Allow content to define height on mobile */
-  display: flex;
-  align-items: center;
+  position: relative;
   padding-top: 5rem;
   padding-bottom: 5rem;
-  position: relative;
 }
 
 .scroll-snap-section:first-child {
-  padding-top: 8rem;
-  /* Padding for fixed header */
-  padding-bottom: 5rem;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-/* Desktop (>= 1024px): Strict scroll snap for premium feel */
 @media (min-width: 1024px) {
   html {
-    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
 
   .scroll-snap-section {
-    min-height: 100vh;
-    /* Force full viewport height */
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
 
-  /* Utility to override full height (e.g., for Footer) */
-  .scroll-snap-section.snap-auto {
-    min-height: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    scroll-snap-align: end;
-  }
-
   .scroll-snap-section:first-child {
     padding-top: 0;
-    /* Hero section handles its own centering/padding */
     padding-bottom: 0;
   }
-}
-
-/* Section divider - subtle fade line */
-.section-divider {
-  position: relative;
-}
-
-.section-divider::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 600px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
 }
 
 /* Section transition animations */
@@ -303,65 +261,6 @@
       hsl(0 0% 6%) 0%,
       hsl(0 0% 8%) 50%,
       hsl(0 0% 10%) 100%);
-}
-
-/* ── Artwork stream marquee ── */
-@keyframes marquee-rtl {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Bouncy floating animation */
-@keyframes float-bob {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-8px) rotate(0.5deg);
-  }
-}
-
-.artwork-track {
-  display: flex;
-  align-items: center;
-  /* Vertically center cards of varying heights */
-  width: max-content;
-  /* Slower speed: 80s */
-  animation: marquee-rtl 80s linear infinite;
-  will-change: transform;
-}
-
-/* Pause when any card inside the strip is hovered */
-.artwork-strip:hover .artwork-track {
-  animation-play-state: paused;
-}
-
-/* When track is paused (hover), also pause the bobbing of children */
-.artwork-strip:hover .artwork-card-inner {
-  animation-play-state: paused;
-}
-
-/* Edge fade masks */
-.artwork-strip {
-  --fade-w: 80px;
-  -webkit-mask-image: linear-gradient(to right,
-      transparent 0,
-      black var(--fade-w),
-      black calc(100% - var(--fade-w)),
-      transparent 100%);
-  mask-image: linear-gradient(to right,
-      transparent 0,
-      black var(--fade-w),
-      black calc(100% - var(--fade-w)),
-      transparent 100%);
 }
 
 /* Hero fade-in animation */
@@ -680,10 +579,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .scroll-snap-container {
-    scroll-snap-type: none;
   }
 
   .timeline-item {

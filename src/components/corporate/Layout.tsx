@@ -16,7 +16,7 @@ export function Layout({ children }: LayoutProps) {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // Home page uses scroll-snap container, other pages use normal layout
+  // Home page uses section-based layout with inline footer, other pages use normal layout
   if (isHomePage) {
     return (
       <>
